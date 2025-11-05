@@ -1,0 +1,31 @@
+{
+  "mcpServers": {
+    "datadog": {
+      "command": "bash",
+      "args": [
+        "/home/cianci/develop/Git/Codeia-Tech/codeia-mcp-servers/scripts/datadog-mcp-wrapper.sh"
+      ],
+      "description": "Integração completa com Datadog: monitores, dashboards, análises, workflows, post-mortems e relatórios"
+    },
+    "filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "/home/cianci/develop/Git/Codeia-Tech/codeia-mcp-servers"
+      ],
+      "description": "Acesso ao sistema de arquivos do projeto"
+    },
+    "git": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-git",
+        "--repository",
+        "/home/cianci/develop/Git/Codeia-Tech/codeia-mcp-servers"
+      ],
+      "description": "Operações Git e análise de repositório"
+    }
+  }
+}
+
