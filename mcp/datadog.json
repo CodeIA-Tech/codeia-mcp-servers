@@ -1,0 +1,17 @@
+{
+  "mcpServers": {
+    "datadog": {
+      "command": "node",
+      "args": [
+        "${REPO_ROOT}/scripts/datadog-mcp-server.js"
+      ],
+      "env": {
+        "DATADOG_API_KEY": "${DATADOG_API_KEY}",
+        "DATADOG_APP_KEY": "${DATADOG_APP_KEY}",
+        "DATADOG_SITE": "${DATADOG_SITE:-datadoghq.com}"
+      },
+      "description": "Integração completa com Datadog: monitores, dashboards, análises, workflows, post-mortems e relatórios"
+    }
+  }
+}
+

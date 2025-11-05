@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "kubernetes": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-k8s"
+      ],
+      "env": {
+        "KUBECONFIG": "${KUBECONFIG:-~/.kube/config}"
+      },
+      "description": "Operações e consultas no cluster Kubernetes"
+    }
+  }
+}
+
