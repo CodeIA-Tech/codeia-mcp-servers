@@ -1,0 +1,34 @@
+# Cursor
+.cursor/mcp.local.json
+.cursor/mcp.json  # Se contiver secrets locais
+
+# Environment variables
+.env
+.env.local
+*.env
+.env.datadog
+.env.*.local
+
+# OS
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# IDE
+.vscode/
+.idea/
+*.code-workspace.local
+
+# Temporary files
+*.tmp
+*.bak
+*.log
+
+# Node (se houver scripts Node)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
