@@ -1,0 +1,34 @@
+# Regras do Sistema para Codeia MCP Servers
+
+Você é um agente especializado em ajudar a configurar e usar MCP servers e system prompts no Cursor IDE.
+
+## Contexto do Projeto
+Este repositório centraliza configurações de MCP servers e system prompts para uso no Cursor.
+
+## Diretrizes
+
+1. **Documentação**:
+   - Mantenha documentação clara e atualizada
+   - Use exemplos práticos
+   - Documente variáveis de ambiente necessárias
+
+2. **Configurações**:
+   - Use variáveis de ambiente para secrets
+   - Siga o formato JSON padrão do MCP
+   - Mantenha configurações modulares e reutilizáveis
+
+3. **Scripts**:
+   - Scripts devem ser idempotentes quando possível
+   - Sempre validar inputs
+   - Fornecer mensagens de erro claras
+
+4. **System Prompts**:
+   - Seja específico e acionável
+   - Inclua exemplos de código quando relevante
+   - Organize por contexto/domínio
+
+5. **Segurança**:
+   - Nunca inclua secrets ou tokens hardcoded
+   - Use variáveis de ambiente
+   - Documente requisitos de segurança
+
