@@ -29,10 +29,12 @@ codeia-mcp-servers/
 ├── mcp/                          # Configurações de MCP Servers
 │   ├── base.json                 # Servidores base (filesystem, git)
 │   ├── kubernetes.json           # Servidor Kubernetes
-│   ├── gitops.json               # Servidores GitOps (GitHub)
+│   ├── gitops.json               # Servidores GitOps (GitHub, Azure DevOps)
 │   ├── databases.json            # Servidores de banco (Postgres, SQLite)
 │   ├── cloud.json                # Servidores cloud (AWS, Brave Search)
-│   └── datadog.json              # Servidor Datadog (monitores, dashboards, análises)
+│   ├── datadog.json              # Servidor Datadog (monitores, dashboards, análises)
+│   ├── automation.json           # Servidor Rundeck (orquestração e automações)
+│   └── filesystem.json           # Servidor Filesystem (acesso a arquivos locais)
 │
 ├── rules/                        # System Prompts por contexto
 │   ├── kubernetes/
@@ -46,11 +48,23 @@ codeia-mcp-servers/
 │   └── datadog/
 │       └── datadog.md            # Regras para Datadog (monitores, dashboards, análises)
 │
-├── scripts/                      # Scripts utilitários
+├── scripts/                      # Scripts utilitários organizados por funcionalidade
+│   ├── datadog/                  # Scripts relacionados ao Datadog
+│   │   ├── datadog-mcp-server.js
+│   │   ├── create-dashboard.js
+│   │   ├── datadog-monitor-*.js
+│   │   └── ...
+│   ├── azure-devops/             # Scripts relacionados ao Azure DevOps
+│   │   ├── azure-devops-mcp-server.js
+│   │   └── generate-operacoes-report.js
+│   ├── rundeck/                  # Scripts relacionados ao Rundeck
+│   │   └── rundeck-mcp-server.js
+│   ├── utils/                    # Utilitários compartilhados
+│   │   ├── env-loader.js
+│   │   └── datadog-client.js
 │   ├── install-global.sh         # Instala configurações globalmente
 │   ├── setup-project.sh          # Configura projeto específico
-│   ├── merge-configs.sh          # Faz merge de configurações
-│   └── datadog-mcp-server.js     # Servidor MCP customizado para Datadog
+│   └── merge-configs.sh          # Faz merge de configurações
 │
 ├── templates/                    # Templates prontos
 │   ├── project-k8s.json          # Template para projetos Kubernetes
@@ -156,7 +170,7 @@ cursor-agent mcp disable postgres
 
 Para usar agentes especializados com nomes específicos, consulte o guia completo:
 
-👉 **[AGENTES.md](AGENTES.md)** - Guia completo de como acionar agentes especializados
+👉 **[Guia de agentes](docs/reference/AGENTES.md)** - Como acionar agentes especializados
 
 ### Resumo Rápido
 
@@ -177,7 +191,7 @@ Você pode acionar agentes mencionando o nome do agente:
 - "Monitor Specialist"
 - "Observability Expert"
 
-Veja o [guia completo de agentes](AGENTES.md) para todos os nomes e exemplos detalhados.
+Veja o [guia completo de agentes](docs/reference/AGENTES.md) para todos os nomes e exemplos detalhados.
 
 ## 🔧 Configurações Disponíveis
 
@@ -191,7 +205,17 @@ Veja o [guia completo de agentes](AGENTES.md) para todos os nomes e exemplos det
 
 ### GitOps (`mcp/gitops.json`)
 - **github**: Operações no GitHub
-- Requer: `GITHUB_TOKEN`
+  - Requer: `GITHUB_TOKEN`
+- **azure-devops**: Operações no Azure DevOps (Repos, Pipelines, Boards)
+  - Requer: `AZURE_DEVOPS_ORG`, `AZURE_DEVOPS_PAT`
+  - Opcional: `AZURE_DEVOPS_PROJECT`, `AZURE_DEVOPS_API_VERSION`
+  - 📖 Veja [AZURE-DEVOPS-MCP.md](docs/AZURE-DEVOPS-MCP.md) para detalhes e exemplos
+
+### Automação (`mcp/automation.json`)
+- **rundeck**: Automação e orquestração via Rundeck
+  - Requer: `RUNDECK_API_URL`, `RUNDECK_API_TOKEN`
+  - Opcional: `RUNDECK_API_VERSION` (padrão: `28`)
+  - 📖 Veja [RUNDECK-MCP.md](docs/RUNDECK-MCP.md) para detalhes e exemplos
 
 ### Databases (`mcp/databases.json`)
 - **postgres**: Acesso a PostgreSQL
@@ -213,6 +237,19 @@ Veja o [guia completo de agentes](AGENTES.md) para todos os nomes e exemplos det
   - Gerenciar incidentes
 - Requer: `DATADOG_API_KEY`, `DATADOG_APP_KEY`
 - Opcional: `DATADOG_SITE` (padrão: datadoghq.com)
+
+### Filesystem (`mcp/filesystem.json`)
+- **filesystem**: Acesso a arquivos locais no notebook
+  - Listar arquivos e diretórios
+  - Ler arquivos de texto (txt, md, json, yaml, xml, html, css, js, ts, py, etc)
+  - Ler documentos Word (.docx)
+  - Ler planilhas Excel (.xlsx, .xls)
+  - Ler PDFs
+  - Buscar arquivos por nome ou padrão
+  - Obter informações de arquivos
+- Requer: `FILESYSTEM_BASE_PATH` (diretório base permitido)
+- Opcional: Bibliotecas para Office (`mammoth`, `xlsx`, `pdf-parse`)
+- 📖 Veja [FILESYSTEM-MCP.md](FILESYSTEM-MCP.md) para documentação completa
 
 ## 📝 System Prompts
 
@@ -270,6 +307,10 @@ export POSTGRES_CONNECTION_STRING="postgresql://..."
 export DATADOG_API_KEY="sua-api-key-datadog"
 export DATADOG_APP_KEY="sua-app-key-datadog"
 export DATADOG_SITE="datadoghq.com"  # ou datadoghq.eu, us3.datadoghq.com, etc.
+export AZURE_DEVOPS_ORG="sua-organizacao"
+export AZURE_DEVOPS_PROJECT="SeuProjetoPadrao"
+export AZURE_DEVOPS_PAT="seu-personal-access-token"
+export AZURE_DEVOPS_API_VERSION="7.0"
 ```
 
 ### GitHub Secrets (Recomendado para Times)

@@ -1,5 +1,7 @@
 # Reports
-reports/
+reports/generated/
+reports/*.html
+!reports/examples/
 
 # Cursor
 .cursor/mcp.local.json
