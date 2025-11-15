@@ -1,0 +1,552 @@
+{
+  "title": "SRE - Porto - Motor de Porto",
+  "description": "Dashboard focado nos 4 Golden Signals, métricas APM e monitores chave do serviço motor-porto-tomcat.",
+  "layout_type": "ordered",
+  "notify_list": [],
+  "template_variables": [
+    {
+      "name": "env",
+      "prefix": "env",
+      "default": "prod"
+    },
+    {
+      "name": "service",
+      "prefix": "service",
+      "default": "motor-porto-tomcat"
+    }
+  ],
+  "widgets": [
+    {
+      "definition": {
+        "type": "note",
+        "content": "# SRE - Porto - Motor de Porto\n\nVisão operacional baseada nos 4 Sinais de Ouro (Latência, Tráfego, Erros, Saturação) para o serviço `motor-porto-tomcat`. Inclui APM, saúde de infraestrutura e status de monitores críticos."
+      },
+      "layout": {
+        "x": 0,
+        "y": 0,
+        "width": 12,
+        "height": 4
+      }
+    },
+    {
+      "definition": {
+        "type": "note",
+        "content": "## Latency (Latência)\nKPIs principais de latência e experiência do usuário."
+      },
+      "layout": {
+        "x": 0,
+        "y": 4,
+        "width": 12,
+        "height": 2
+      }
+    },
+    {
+      "definition": {
+        "type": "timeseries",
+        "title": "P95 da Latência HTTP",
+        "requests": [
+          {
+            "q": "p95:trace.web.request.duration{service:$service,env:$env}.rollup(avg, 60)",
+            "display_type": "line",
+            "style": {
+              "palette": "dog_classic",
+              "line_type": "solid",
+              "line_width": "normal"
+            }
+          }
+        ],
+        "show_legend": true
+      },
+      "layout": {
+        "x": 0,
+        "y": 6,
+        "width": 6,
+        "height": 6
+      }
+    },
+    {
+      "definition": {
+        "type": "timeseries",
+        "title": "Latência por Endpoint (top 5 p95)",
+        "requests": [
+          {
+            "q": "top5(p95:trace.web.request.duration{service:$service,env:$env} by {resource_name}.rollup(avg, 300))",
+            "display_type": "line",
+            "style": {
+              "palette": "cool",
+              "line_type": "solid",
+              "line_width": "normal"
+            }
+          }
+        ],
+        "show_legend": true
+      },
+      "layout": {
+        "x": 6,
+        "y": 6,
+        "width": 6,
+        "height": 6
+      }
+    },
+    {
+      "definition": {
+        "type": "heatmap",
+        "title": "Distribuição de Latência por Host",
+        "requests": [
+          {
+            "q": "avg:trace.web.request.duration{service:$service,env:$env} by {host}"
+          }
+        ]
+      },
+      "layout": {
+        "x": 0,
+        "y": 12,
+        "width": 6,
+        "height": 6
+      }
+    },
+    {
+      "definition": {
+        "type": "query_value",
+        "title": "APDEX (últimos 15 min)",
+        "requests": [
+          {
+            "q": "avg:trace.apdex{service:$service,env:$env}.rollup(avg, 900)",
+            "aggregator": "avg"
+          }
+        ],
+        "autoscale": true,
+        "precision": 2
+      },
+      "layout": {
+        "x": 6,
+        "y": 12,
+        "width": 6,
+        "height": 6
+      }
+    },
+    {
+      "definition": {
+        "type": "note",
+        "content": "## Traffic (Tráfego)\nDemanda e volume de requisições."
+      },
+      "layout": {
+        "x": 0,
+        "y": 18,
+        "width": 12,
+        "height": 2
+      }
+    },
+    {
+      "definition": {
+        "type": "timeseries",
+        "title": "Requisições por Minuto",
+        "requests": [
+          {
+            "q": "per_minute(sum:trace.web.request.hits{service:$service,env:$env})",
+            "display_type": "line",
+            "style": {
+              "palette": "dog_classic",
+              "line_type": "solid",
+              "line_width": "normal"
+            }
+          }
+        ]
+      },
+      "layout": {
+        "x": 0,
+        "y": 20,
+        "width": 6,
+        "height": 6
+      }
+    },
+    {
+      "definition": {
+        "type": "timeseries",
+        "title": "Requisições por Endpoint",
+        "requests": [
+          {
+            "q": "top5(per_minute(sum:trace.web.request.hits{service:$service,env:$env} by {resource_name}))",
+            "display_type": "line",
+            "style": {
+              "palette": "warm",
+              "line_type": "solid",
+              "line_width": "normal"
+            }
+          }
+        ]
+      },
+      "layout": {
+        "x": 6,
+        "y": 20,
+        "width": 6,
+        "height": 6
+      }
+    },
+    {
+      "definition": {
+        "type": "toplist",
+        "title": "Top Referers / Client IP (últimos 15min)",
+        "requests": [
+          {
+            "q": "top(sum:trace.web.request.hits{service:$service,env:$env} by {http.referer}, 10, 'mean', 'desc')"
+          }
+        ]
+      },
+      "layout": {
+        "x": 0,
+        "y": 26,
+        "width": 6,
+        "height": 6
+      }
+    },
+    {
+      "definition": {
+        "type": "timeseries",
+        "title": "Throughput vs. Latência",
+        "requests": [
+          {
+            "q": "per_minute(sum:trace.web.request.hits{service:$service,env:$env})",
+            "display_type": "line",
+            "style": {
+              "palette": "dog_classic",
+              "line_type": "solid",
+              "line_width": "normal"
+            }
+          },
+          {
+            "q": "p90:trace.web.request.duration{service:$service,env:$env}.rollup(avg, 60)",
+            "display_type": "line",
+            "style": {
+              "palette": "orange",
+              "line_type": "solid",
+              "line_width": "normal"
+            },
+            "on_right_yaxis": true
+          }
+        ]
+      },
+      "layout": {
+        "x": 6,
+        "y": 26,
+        "width": 6,
+        "height": 6
+      }
+    },
+    {
+      "definition": {
+        "type": "note",
+        "content": "## Errors (Erros)\nTaxa de falhas e análise detalhada."
+      },
+      "layout": {
+        "x": 0,
+        "y": 32,
+        "width": 12,
+        "height": 2
+      }
+    },
+    {
+      "definition": {
+        "type": "timeseries",
+        "title": "Taxa de Erros 5xx (%)",
+        "requests": [
+          {
+            "q": "(sum:trace.web.request.errors{service:$service,env:$env,http.status_code:5*} / sum:trace.web.request.hits{service:$service,env:$env}) * 100",
+            "display_type": "line",
+            "style": {
+              "palette": "dog_classic",
+              "line_type": "solid",
+              "line_width": "normal"
+            }
+          }
+        ]
+      },
+      "layout": {
+        "x": 0,
+        "y": 34,
+        "width": 6,
+        "height": 6
+      }
+    },
+    {
+      "definition": {
+        "type": "timeseries",
+        "title": "Taxa de Erros 4xx (%)",
+        "requests": [
+          {
+            "q": "(sum:trace.web.request.errors{service:$service,env:$env,http.status_code:4*} / sum:trace.web.request.hits{service:$service,env:$env}) * 100",
+            "display_type": "line",
+            "style": {
+              "palette": "warm",
+              "line_type": "solid",
+              "line_width": "normal"
+            }
+          }
+        ]
+      },
+      "layout": {
+        "x": 6,
+        "y": 34,
+        "width": 6,
+        "height": 6
+      }
+    },
+    {
+      "definition": {
+        "type": "toplist",
+        "title": "Top Endpoints com Erros (últimos 15min)",
+        "requests": [
+          {
+            "q": "top(sum:trace.web.request.errors{service:$service,env:$env} by {resource_name}, 10, 'mean', 'desc')"
+          }
+        ]
+      },
+      "layout": {
+        "x": 0,
+        "y": 40,
+        "width": 6,
+        "height": 6
+      }
+    },
+    {
+      "definition": {
+        "type": "log_stream",
+        "title": "Logs de Erros Recorrentes",
+        "indexes": [
+          "main"
+        ],
+        "query": "service:$service env:$env status:error",
+        "columns": [
+          "core_host",
+          "core_service",
+          "message"
+        ],
+        "show_date_column": true
+      },
+      "layout": {
+        "x": 6,
+        "y": 40,
+        "width": 6,
+        "height": 6
+      }
+    },
+    {
+      "definition": {
+        "type": "note",
+        "content": "## Saturation (Saturação)\nCapacidade de infraestrutura e gargalos."
+      },
+      "layout": {
+        "x": 0,
+        "y": 46,
+        "width": 12,
+        "height": 2
+      }
+    },
+    {
+      "definition": {
+        "type": "timeseries",
+        "title": "CPU média por host",
+        "requests": [
+          {
+            "q": "avg:system.cpu.user{service:$service,env:$env} by {host}",
+            "display_type": "line",
+            "style": {
+              "palette": "dog_classic",
+              "line_type": "solid",
+              "line_width": "normal"
+            }
+          }
+        ]
+      },
+      "layout": {
+        "x": 0,
+        "y": 48,
+        "width": 6,
+        "height": 6
+      }
+    },
+    {
+      "definition": {
+        "type": "timeseries",
+        "title": "Memória disponível (%)",
+        "requests": [
+          {
+            "q": "avg:system.mem.pct_usable{service:$service,env:$env} by {host} * 100",
+            "display_type": "line",
+            "style": {
+              "palette": "cool",
+              "line_type": "solid",
+              "line_width": "normal"
+            }
+          }
+        ]
+      },
+      "layout": {
+        "x": 6,
+        "y": 48,
+        "width": 6,
+        "height": 6
+      }
+    },
+    {
+      "definition": {
+        "type": "timeseries",
+        "title": "Uso de Thread Pool Tomcat",
+        "requests": [
+          {
+            "q": "avg:tomcat.threads.busy{service:$service,env:$env} / avg:tomcat.threads.max{service:$service,env:$env} * 100",
+            "display_type": "line",
+            "style": {
+              "palette": "orange",
+              "line_type": "solid",
+              "line_width": "normal"
+            }
+          }
+        ]
+      },
+      "layout": {
+        "x": 0,
+        "y": 54,
+        "width": 6,
+        "height": 6
+      }
+    },
+    {
+      "definition": {
+        "type": "timeseries",
+        "title": "Lag de processamento em filas",
+        "requests": [
+          {
+            "q": "avg:aws.sqs.approximate_age_of_oldest_message{env:$env,service:$service} by {queue}",
+            "display_type": "line",
+            "style": {
+              "palette": "purple",
+              "line_type": "solid",
+              "line_width": "normal"
+            }
+          }
+        ]
+      },
+      "layout": {
+        "x": 6,
+        "y": 54,
+        "width": 6,
+        "height": 6
+      }
+    },
+    {
+      "definition": {
+        "type": "note",
+        "content": "## APM & Service Health\nStatus geral, SLO e mudanças recentes."
+      },
+      "layout": {
+        "x": 0,
+        "y": 60,
+        "width": 12,
+        "height": 2
+      }
+    },
+    {
+      "definition": {
+        "type": "slo",
+        "title": "SLO de Disponibilidade (últimos 7 dias)",
+        "view_mode": "overall",
+        "view_type": "detail",
+        "show_error_budget": true,
+        "slo_id": "replace-with-slo-id",
+        "time_windows": [
+          "7d"
+        ]
+      },
+      "layout": {
+        "x": 0,
+        "y": 62,
+        "width": 12,
+        "height": 8
+      }
+    },
+    {
+      "definition": {
+        "type": "timeseries",
+        "title": "Dependências Downstream - Latência média",
+        "requests": [
+          {
+            "q": "avg:trace.http.request.duration{env:$env,service:$service,span.kind:client} by {peer.service}.rollup(avg, 300)",
+            "display_type": "line",
+            "style": {
+              "palette": "cool",
+              "line_type": "solid",
+              "line_width": "normal"
+            }
+          }
+        ],
+        "show_legend": true
+      },
+      "layout": {
+        "x": 0,
+        "y": 70,
+        "width": 12,
+        "height": 6
+      }
+    },
+    {
+      "definition": {
+        "type": "note",
+        "content": "## Monitores & Incidentes\nSaúde operacional e histórico recente."
+      },
+      "layout": {
+        "x": 0,
+        "y": 76,
+        "width": 12,
+        "height": 2
+      }
+    },
+    {
+      "definition": {
+        "type": "manage_status",
+        "title": "Monitores críticos (tag:service:$service)",
+        "color_preference": "text",
+        "query": "tag:service:$service"
+      },
+      "layout": {
+        "x": 0,
+        "y": 78,
+        "width": 6,
+        "height": 6
+      }
+    },
+    {
+      "definition": {
+        "type": "event_stream",
+        "title": "Incidentes recentes (últimos 7 dias)",
+        "query": "source:incident service:$service env:$env",
+        "event_size": "s",
+        "tags_execution": "and",
+        "time": {
+          "live_span": "1w"
+        }
+      },
+      "layout": {
+        "x": 6,
+        "y": 78,
+        "width": 6,
+        "height": 6
+      }
+    },
+    {
+      "definition": {
+        "type": "note",
+        "content": "**Próximos Passos**\n- Substituir `slo_id` pelo ID real do SLO em produção.\n- Ajustar queries para tags específicas (cluster, namespace, versão).\n- Incluir métricas adicionais (SSL, backups, capacidade) conforme necessidade.\n- Conectar alertas ao OnCall seguindo a planilha `Times-OnCall-Teams.xlsx`."
+      },
+      "layout": {
+        "x": 0,
+        "y": 84,
+        "width": 12,
+        "height": 4
+      }
+    }
+  ]
+}
+
+
+

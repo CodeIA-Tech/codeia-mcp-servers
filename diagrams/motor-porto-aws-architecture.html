@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arquitetura AWS</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f5f5f5;
+      padding: 2rem;
+    }
+    
+    .container {
+      max-width: 1600px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+    
+    .header {
+      background: linear-gradient(135deg, #FF9900 0%, #FF6600 100%);
+      color: white;
+      padding: 2rem;
+    }
+    
+    .header h1 {
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .aws-badge {
+      background: white;
+      color: #FF9900;
+      padding: 0.3rem 0.8rem;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-weight: bold;
+    }
+    
+    .actions {
+      background: #f9f9f9;
+      padding: 1rem 2rem;
+      border-bottom: 1px solid #e0e0e0;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    
+    .btn {
+      background: #FF9900;
+      color: white;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 4px;
+      cursor: pointer;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 0.3s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .btn:hover {
+      background: #FF6600;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    
+    .btn-secondary {
+      background: #232F3E;
+    }
+    
+    .btn-secondary:hover {
+      background: #37475A;
+    }
+    
+    .info-box {
+      background: #FFF4E6;
+      border-left: 4px solid #FF9900;
+      padding: 1.5rem;
+      margin: 2rem;
+    }
+    
+    .info-box h3 {
+      color: #FF9900;
+      margin-bottom: 1rem;
+    }
+    
+    .info-box ul {
+      list-style: none;
+      padding: 0;
+    }
+    
+    .info-box li {
+      padding: 0.5rem 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .stats {
+      padding: 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+    
+    .stat-card {
+      background: linear-gradient(135deg, #FF9900 0%, #FF6600 100%);
+      color: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      text-align: center;
+    }
+    
+    .stat-card h4 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .icon-legend {
+      padding: 2rem;
+      background: #f9f9f9;
+    }
+    
+    .icon-legend h3 {
+      margin-bottom: 1.5rem;
+      color: #232F3E;
+    }
+    
+    .icon-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+    }
+    
+    .icon-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+      background: white;
+      border-radius: 4px;
+      border: 1px solid #e0e0e0;
+    }
+    
+    .icon-preview {
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>
+        🏗️ Arquitetura AWS
+        <span class="aws-badge">AWS ICONS</span>
+      </h1>
+      <p>Diagrama gerado automaticamente com ícones oficiais da AWS</p>
+    </div>
+    
+    <div class="actions">
+      <a href="https://app.diagrams.net/?libs=aws4;kubernetes#UPD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPG14ZmlsZSBob3N0PSJhcHAuZGlhZ3JhbXMubmV0IiBtb2RpZmllZD0iMjAyNS0xMS0wN1QwMDoyNzoxMS4zODhaIiBhZ2VudD0iRGF0YWRvZyBBUE0gR2VuZXJhdG9yIEFXUyIgdmVyc2lvbj0iMjEuMC4wIiB0eXBlPSJkZXZpY2UiPgogIDxkaWFncmFtIG5hbWU9IkFXUyBBcmNoaXRlY3R1cmUiIGlkPSJhd3MtYXJjaGl0ZWN0dXJlIj4KICAgIDxteEdyYXBoTW9kZWwgZHg9IjE0MjIiIGR5PSI3OTQiIGdyaWQ9IjEiIGdyaWRTaXplPSIxMCIgZ3VpZGVzPSIxIiB0b29sdGlwcz0iMSIgY29ubmVjdD0iMSIgYXJyb3dzPSIxIiBmb2xkPSIxIiBwYWdlPSIxIiBwYWdlU2NhbGU9IjEiIHBhZ2VXaWR0aD0iMTE2OSIgcGFnZUhlaWdodD0iODI3IiBtYXRoPSIwIiBzaGFkb3c9IjAiPgogICAgICA8cm9vdD4KICAgICAgICA8bXhDZWxsIGlkPSIwIi8+CiAgICAgICAgPG14Q2VsbCBpZD0iMSIgcGFyZW50PSIwIi8+CiAgICAgICAgPG14Q2VsbCBpZD0iMiIgdmFsdWU9Im1vdG9yLXBvcnRvLXRvbWNhdCIgc3R5bGU9InNrZXRjaD0wO3BvaW50cz1bWzAsMCwwXSxbMC4yNSwwLDBdLFswLjUsMCwwXSxbMC43NSwwLDBdLFsxLDAsMF0sWzAsMSwwXSxbMC4yNSwxLDBdLFswLjUsMSwwXSxbMC43NSwxLDBdLFsxLDEsMF0sWzAsMC4yNSwwXSxbMCwwLjUsMF0sWzAsMC43NSwwXSxbMSwwLjI1LDBdLFsxLDAuNSwwXSxbMSwwLjc1LDBdXTtvdXRsaW5lQ29ubmVjdD0wO2ZvbnRDb2xvcj0jMjMyRjNFO2dyYWRpZW50Q29sb3I9I0Y3OEUwNDtncmFkaWVudERpcmVjdGlvbj1ub3J0aDtmaWxsQ29sb3I9I0QwNUMxNztzdHJva2VDb2xvcj0jZmZmZmZmO2Rhc2hlZD0wO3ZlcnRpY2FsTGFiZWxQb3NpdGlvbj1ib3R0b207dmVydGljYWxBbGlnbj10b3A7YWxpZ249Y2VudGVyO2h0bWw9MTtmb250U2l6ZT0xMjtmb250U3R5bGU9MDthc3BlY3Q9Zml4ZWQ7c2hhcGU9bXhncmFwaC5hd3M0LnJlc291cmNlSWNvbjtyZXNJY29uPW14Z3JhcGguYXdzNC5lYzI7IiB2ZXJ0ZXg9IjEiIHBhcmVudD0iMSI+CiAgICAgIDxteEdlb21ldHJ5IHg9IjEwMCIgeT0iMTAwIiB3aWR0aD0iNzgiIGhlaWdodD0iNzgiIGFzPSJnZW9tZXRyeSIvPgogICAgPC9teENlbGw+CiAgICAgICAgPG14Q2VsbCBpZD0iMyIgdmFsdWU9InJvb3Qtc2VydmxldCIgc3R5bGU9InNrZXRjaD0wO3BvaW50cz1bWzAsMCwwXSxbMC4yNSwwLDBdLFswLjUsMCwwXSxbMC43NSwwLDBdLFsxLDAsMF0sWzAsMSwwXSxbMC4yNSwxLDBdLFswLjUsMSwwXSxbMC43NSwxLDBdLFsxLDEsMF0sWzAsMC4yNSwwXSxbMCwwLjUsMF0sWzAsMC43NSwwXSxbMSwwLjI1LDBdLFsxLDAuNSwwXSxbMSwwLjc1LDBdXTtvdXRsaW5lQ29ubmVjdD0wO2ZvbnRDb2xvcj0jMjMyRjNFO2dyYWRpZW50Q29sb3I9I0Y3OEUwNDtncmFkaWVudERpcmVjdGlvbj1ub3J0aDtmaWxsQ29sb3I9I0QwNUMxNztzdHJva2VDb2xvcj0jZmZmZmZmO2Rhc2hlZD0wO3ZlcnRpY2FsTGFiZWxQb3NpdGlvbj1ib3R0b207dmVydGljYWxBbGlnbj10b3A7YWxpZ249Y2VudGVyO2h0bWw9MTtmb250U2l6ZT0xMjtmb250U3R5bGU9MDthc3BlY3Q9Zml4ZWQ7c2hhcGU9bXhncmFwaC5hd3M0LnJlc291cmNlSWNvbjtyZXNJY29uPW14Z3JhcGguYXdzNC5lYzI7IiB2ZXJ0ZXg9IjEiIHBhcmVudD0iMSI+CiAgICAgIDxteEdlb21ldHJ5IHg9IjM1MCIgeT0iMTAwIiB3aWR0aD0iNzgiIGhlaWdodD0iNzgiIGFzPSJnZW9tZXRyeSIvPgogICAgPC9teENlbGw+CiAgICAgICAgPG14Q2VsbCBpZD0iNCIgdmFsdWU9Im1hbmFnZXIiIHN0eWxlPSJza2V0Y2g9MDtwb2ludHM9W1swLDAsMF0sWzAuMjUsMCwwXSxbMC41LDAsMF0sWzAuNzUsMCwwXSxbMSwwLDBdLFswLDEsMF0sWzAuMjUsMSwwXSxbMC41LDEsMF0sWzAuNzUsMSwwXSxbMSwxLDBdLFswLDAuMjUsMF0sWzAsMC41LDBdLFswLDAuNzUsMF0sWzEsMC4yNSwwXSxbMSwwLjUsMF0sWzEsMC43NSwwXV07b3V0bGluZUNvbm5lY3Q9MDtmb250Q29sb3I9IzIzMkYzRTtncmFkaWVudENvbG9yPSNGNzhFMDQ7Z3JhZGllbnREaXJlY3Rpb249bm9ydGg7ZmlsbENvbG9yPSNEMDVDMTc7c3Ryb2tlQ29sb3I9I2ZmZmZmZjtkYXNoZWQ9MDt2ZXJ0aWNhbExhYmVsUG9zaXRpb249Ym90dG9tO3ZlcnRpY2FsQWxpZ249dG9wO2FsaWduPWNlbnRlcjtodG1sPTE7Zm9udFNpemU9MTI7Zm9udFN0eWxlPTA7YXNwZWN0PWZpeGVkO3NoYXBlPW14Z3JhcGguYXdzNC5yZXNvdXJjZUljb247cmVzSWNvbj1teGdyYXBoLmF3czQuZWMyOyIgdmVydGV4PSIxIiBwYXJlbnQ9IjEiPgogICAgICA8bXhHZW9tZXRyeSB4PSI2MDAiIHk9IjEwMCIgd2lkdGg9Ijc4IiBoZWlnaHQ9Ijc4IiBhcz0iZ2VvbWV0cnkiLz4KICAgIDwvbXhDZWxsPgogICAgICAgIDxteENlbGwgaWQ9IjUiIHZhbHVlPSJFbGFzdGlDYWNoZS1OL0EiIHN0eWxlPSJza2V0Y2g9MDtwb2ludHM9W1swLDAsMF0sWzAuMjUsMCwwXSxbMC41LDAsMF0sWzAuNzUsMCwwXSxbMSwwLDBdLFswLDEsMF0sWzAuMjUsMSwwXSxbMC41LDEsMF0sWzAuNzUsMSwwXSxbMSwxLDBdLFswLDAuMjUsMF0sWzAsMC41LDBdLFswLDAuNzUsMF0sWzEsMC4yNSwwXSxbMSwwLjUsMF0sWzEsMC43NSwwXV07b3V0bGluZUNvbm5lY3Q9MDtmb250Q29sb3I9IzIzMkYzRTtncmFkaWVudENvbG9yPSM0RDcyRjM7Z3JhZGllbnREaXJlY3Rpb249bm9ydGg7ZmlsbENvbG9yPSMzMzM0Qjk7c3Ryb2tlQ29sb3I9I2ZmZmZmZjtkYXNoZWQ9MDt2ZXJ0aWNhbExhYmVsUG9zaXRpb249Ym90dG9tO3ZlcnRpY2FsQWxpZ249dG9wO2FsaWduPWNlbnRlcjtodG1sPTE7Zm9udFNpemU9MTI7Zm9udFN0eWxlPTA7YXNwZWN0PWZpeGVkO3NoYXBlPW14Z3JhcGguYXdzNC5yZXNvdXJjZUljb247cmVzSWNvbj1teGdyYXBoLmF3czQuZWxhc3RpY2FjaGU7IiB2ZXJ0ZXg9IjEiIHBhcmVudD0iMSI+CiAgICAgIDxteEdlb21ldHJ5IHg9IjEwMCIgeT0iMzUwIiB3aWR0aD0iNzgiIGhlaWdodD0iNzgiIGFzPSJnZW9tZXRyeSIvPgogICAgPC9teENlbGw+CiAgICAgIDwvcm9vdD4KICAgIDwvbXhHcmFwaE1vZGVsPgogIDwvZGlhZ3JhbT4KPC9teGZpbGU+" target="_blank" class="btn">
+        📝 Editar no draw.io (com bibliotecas AWS carregadas)
+      </a>
+      <button class="btn btn-secondary" onclick="downloadDrawio()">
+        💾 Download arquivo .drawio
+      </button>
+    </div>
+    
+    <div class="info-box">
+      <h3>✨ Bibliotecas AWS Incluídas</h3>
+      <p>Este diagrama usa ícones oficiais da AWS e Kubernetes. Ao abrir no draw.io, as bibliotecas já estarão carregadas!</p>
+      <ul>
+        <li>✅ AWS Architecture Icons (aws4)</li>
+        <li>✅ Kubernetes Icons</li>
+        <li>💡 Você pode adicionar mais: Azure, GCP, Terraform, etc.</li>
+      </ul>
+    </div>
+    
+    <div class="stats">
+      <div class="stat-card">
+        <h4>3</h4>
+        <p>Serviços / Aplicações</p>
+      </div>
+      <div class="stat-card">
+        <h4>0</h4>
+        <p>Databases (RDS)</p>
+      </div>
+      <div class="stat-card">
+        <h4>1</h4>
+        <p>Caches (ElastiCache)</p>
+      </div>
+      <div class="stat-card">
+        <h4>62</h4>
+        <p>Conexões</p>
+      </div>
+    </div>
+    
+    <div class="icon-legend">
+      <h3>🎨 Ícones Disponíveis no Diagrama</h3>
+      <div class="icon-grid">
+        <div class="icon-item">
+          <div class="icon-preview">🖥️</div>
+          <div>
+            <strong>EC2 Instance</strong>
+            <p>Servidores Tomcat, Apps</p>
+          </div>
+        </div>
+        <div class="icon-item">
+          <div class="icon-preview">🗄️</div>
+          <div>
+            <strong>RDS Database</strong>
+            <p>PostgreSQL, MySQL, etc</p>
+          </div>
+        </div>
+        <div class="icon-item">
+          <div class="icon-preview">⚡</div>
+          <div>
+            <strong>ElastiCache</strong>
+            <p>Redis, Memcached</p>
+          </div>
+        </div>
+        <div class="icon-item">
+          <div class="icon-preview">☸️</div>
+          <div>
+            <strong>Kubernetes Pod</strong>
+            <p>Containers K8s</p>
+          </div>
+        </div>
+        <div class="icon-item">
+          <div class="icon-preview">🐳</div>
+          <div>
+            <strong>ECS/Container</strong>
+            <p>Docker, ECS</p>
+          </div>
+        </div>
+        <div class="icon-item">
+          <div class="icon-preview">⚡</div>
+          <div>
+            <strong>Lambda Function</strong>
+            <p>Serverless, Workers</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    const mxGraphData = `<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2025-11-07T00:27:11.388Z" agent="Datadog APM Generator AWS" version="21.0.0" type="device">
+  <diagram name="AWS Architecture" id="aws-architecture">
+    <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="2" value="motor-porto-tomcat" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;gradientColor=#F78E04;gradientDirection=north;fillColor=#D05C17;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.ec2;" vertex="1" parent="1">
+      <mxGeometry x="100" y="100" width="78" height="78" as="geometry"/>
+    </mxCell>
+        <mxCell id="3" value="root-servlet" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;gradientColor=#F78E04;gradientDirection=north;fillColor=#D05C17;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.ec2;" vertex="1" parent="1">
+      <mxGeometry x="350" y="100" width="78" height="78" as="geometry"/>
+    </mxCell>
+        <mxCell id="4" value="manager" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;gradientColor=#F78E04;gradientDirection=north;fillColor=#D05C17;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.ec2;" vertex="1" parent="1">
+      <mxGeometry x="600" y="100" width="78" height="78" as="geometry"/>
+    </mxCell>
+        <mxCell id="5" value="ElastiCache-N/A" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;gradientColor=#4D72F3;gradientDirection=north;fillColor=#3334B9;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.elasticache;" vertex="1" parent="1">
+      <mxGeometry x="100" y="350" width="78" height="78" as="geometry"/>
+    </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>`;
+    
+    function downloadDrawio() {
+      const blob = new Blob([mxGraphData], { type: 'application/xml' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'arquitetura-aws.drawio';
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+  </script>
+</body>
+</html>

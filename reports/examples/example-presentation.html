@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lançamento de Novos Produtos 2024 - Vertem</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #ffffff;
+        }
+        
+        /* Header - Estilo Vertem */
+        .header {
+            background: #ffffff;
+            border-bottom: 2px solid #e8e8e8;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header-logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #333;
+        }
+        
+        .header-logo img {
+            max-height: 50px;
+            margin-right: 1rem;
+        }
+        
+        .header-nav {
+            display: none; /* Escondido no header, será mostrado no hero */
+        }
+        
+        .header-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #333;
+            margin: 0;
+            margin-left: 1rem;
+        }
+        
+        /* Hero Section - Presentation Style */
+        .hero {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 2rem 2rem;
+            border-bottom: 4px solid #f5576c;
+            position: sticky;
+            top: 72px; /* Altura do header */
+            z-index: 999;
+            box-shadow: 0 4px 12px rgba(245, 87, 108, 0.3);
+        }
+        
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .hero-nav {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            align-items: center;
+            overflow-x: auto;
+            overflow-y: hidden;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: thin;
+        }
+        
+        .hero-nav::-webkit-scrollbar {
+            height: 4px;
+        }
+        
+        .hero-nav::-webkit-scrollbar-track {
+            background: #2a2a2a;
+        }
+        
+        .hero-nav::-webkit-scrollbar-thumb {
+            background: #666;
+            border-radius: 2px;
+        }
+        
+        .hero-nav::-webkit-scrollbar-thumb:hover {
+            background: #888;
+        }
+        
+        /* Navigation Links - Presentation Style */
+        .nav-link {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-size: 0.95rem;
+            padding: 0.7rem 1.2rem;
+            border-radius: 25px;
+            display: inline-block;
+            line-height: 1.3;
+            white-space: nowrap;
+            text-align: center;
+            min-width: fit-content;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.4);
+        }
+        
+        .nav-link:hover {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.35);
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        
+        .nav-link.active {
+            background: #ffffff;
+            color: #f5576c;
+            border: 2px solid #ffffff;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+            font-weight: 700;
+            white-space: nowrap;
+            padding: 0.7rem 1.5rem;
+            transform: scale(1.08);
+        }
+        
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        
+        /* Summary Cards */
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid #e8e8e8;
+        }
+        
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .card.critical {
+            border-left: 4px solid #e74c3c;
+        }
+        
+        .card.warning {
+            border-left: 4px solid #f39c12;
+        }
+        
+        .card.info {
+            border-left: 4px solid #0066cc;
+        }
+        
+        .card.success {
+            border-left: 4px solid #2ecc71;
+        }
+        
+        .card-title {
+            font-size: 0.9rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+        }
+        
+        .card-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .card-label {
+            font-size: 0.85rem;
+            color: #999;
+            margin-top: 0.5rem;
+        }
+        
+        /* Sections */
+        .section {
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border: 1px solid #e8e8e8;
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            color: #333;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #0066cc;
+        }
+        
+        .content {
+            color: #555;
+            line-height: 1.8;
+        }
+        
+        .content h2 {
+            color: #333;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+        
+        .content h3 {
+            color: #444;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            font-size: 1.2rem;
+        }
+        
+        .content p {
+            margin-bottom: 1rem;
+        }
+        
+        .content ul, .content ol {
+            margin-left: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .content li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .content code {
+            background: #f4f4f4;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        
+        .content pre {
+            background: #f4f4f4;
+            padding: 1rem;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin-bottom: 1rem;
+        }
+        
+        .content pre code {
+            background: none;
+            padding: 0;
+        }
+        
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        
+        .table th, .table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #e8e8e8;
+        }
+        
+        .table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .table tr:hover {
+            background: #f8f9fa;
+        }
+        
+        /* Recommendations */
+        .recommendation {
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: 6px;
+            border-left: 4px solid;
+        }
+        
+        .recommendation.critical {
+            background: #fee;
+            border-color: #e74c3c;
+        }
+        
+        .recommendation.warning {
+            background: #fff8e1;
+            border-color: #f39c12;
+        }
+        
+        .recommendation.info {
+            background: #e3f2fd;
+            border-color: #0066cc;
+        }
+        
+        .recommendation-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .recommendation-category {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .recommendation.critical .recommendation-category {
+            background: #e74c3c;
+            color: white;
+        }
+        
+        .recommendation.warning .recommendation-category {
+            background: #f39c12;
+            color: white;
+        }
+        
+        .recommendation.info .recommendation-category {
+            background: #0066cc;
+            color: white;
+        }
+        
+        .recommendation-description {
+            margin-bottom: 1rem;
+            color: #555;
+        }
+        
+        .recommendation-actions {
+            list-style: none;
+        }
+        
+        .recommendation-actions li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        
+        .recommendation-actions li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #0066cc;
+            font-weight: bold;
+        }
+        
+        /* Footer - Estilo Vertem */
+        .footer {
+            background: #1a1a1a;
+            color: #ffffff;
+            padding: 3rem 2rem 1.5rem;
+            margin-top: 4rem;
+        }
+        
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .footer-top {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #333;
+        }
+        
+        .footer-section h3 {
+            color: #ffffff;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        
+        .footer-section p,
+        .footer-section a {
+            color: #cccccc;
+            text-decoration: none;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin: 0.5rem 0;
+        }
+        
+        .footer-info-line {
+            color: #cccccc;
+            font-size: 0.85rem;
+            line-height: 1.8;
+            margin: 0.5rem 0;
+        }
+        
+        .footer-info-line strong {
+            color: #ffffff;
+            font-weight: 600;
+            margin: 0 0.25rem;
+        }
+        
+        .footer-section a:hover {
+            color: #0066cc;
+        }
+        
+        .footer-logo {
+            max-height: 80px !important;
+            width: auto !important;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid #333;
+            color: #999;
+            font-size: 0.85rem;
+        }
+        
+        .footer-bottom p {
+            margin: 0;
+            line-height: 1.6;
+        }
+        
+        .footer-bottom a {
+            color: #cccccc;
+            text-decoration: none;
+        }
+        
+        .footer-bottom a:hover {
+            color: #0066cc;
+        }
+        
+        .no-data {
+            text-align: center;
+            padding: 2rem;
+            color: #999;
+            font-style: italic;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .badge.critical {
+            background: #e74c3c;
+            color: white;
+        }
+        
+        .badge.warning {
+            background: #f39c12;
+            color: white;
+        }
+        
+        .badge.success {
+            background: #2ecc71;
+            color: white;
+        }
+        
+        .badge.info {
+            background: #0066cc;
+            color: white;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-wrap: wrap;
+            }
+            
+            .header-logo {
+                flex-wrap: wrap;
+                gap: 0.75rem;
+            }
+            
+            .header-title {
+                font-size: 1.3rem;
+                margin-left: 0;
+                width: 100%;
+            }
+            
+            .hero {
+                top: 60px; /* Ajustar para header mobile */
+            }
+            
+            .hero-nav {
+                width: 100%;
+                justify-content: flex-start;
+            }
+            
+            .summary-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <div class="header-logo">
+                <img src="data:image/jpeg;base64,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" alt="Vertem Logo" style="max-height: 50px;">
+                <span style="font-size: 1.5rem; font-weight: 600;">Vertem</span>
+                <h1 class="header-title">Lançamento de Novos Produtos 2024</h1>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Hero Section -->
+    <div class="hero">
+        <div class="hero-container">
+            <nav class="hero-nav">
+                <a href="#intro" class="nav-link" data-section="intro" data-full-label="Bem-vindo" data-short-label="Início">Início</a>
+                <a href="#produtos" class="nav-link" data-section="produtos" data-full-label="Nossos Produtos" data-short-label="Produtos">Produtos</a>
+                <a href="#resultados" class="nav-link" data-section="resultados" data-full-label="Resultados Alcançados" data-short-label="Resultados">Resultados</a>
+                <a href="#futuro" class="nav-link" data-section="futuro" data-full-label="Visão de Futuro" data-short-label="Futuro">Futuro</a>
+            </nav>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="container">
+        
+        
+        
+      <div class="report-section" id="intro">
+        <h2>🎉 Bem-vindo</h2>
+        <p style="font-size: 1.2rem;">Apresentamos nossa nova linha de produtos!</p>
+      </div>
+      <div class="report-section" id="produtos">
+        <h2>🚀 Nossos Produtos</h2>
+        <ul>
+          <li><strong>Produto A:</strong> Solução em Cloud</li>
+          <li><strong>Produto B:</strong> IA e Machine Learning</li>
+          <li><strong>Produto C:</strong> Segurança Avançada</li>
+        </ul>
+      </div>
+      <div class="report-section" id="resultados">
+        <h2>📊 Resultados Alcançados</h2>
+        <p><strong>150 clientes</strong> em 3 meses</p>
+        <p><strong>95% de satisfação</strong> dos usuários</p>
+      </div>
+    
+        
+        
+    </div>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-top">
+                <div class="footer-section">
+                    <img src="data:image/png;base64,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" alt="Vertem Logo" class="footer-logo" style="max-height: 80px; width: auto;">
+                    <p>Transformando tecnologia em resultados para seu negócio.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Informações</h3>
+                    <p class="footer-info-line">
+                        <strong>Autor:</strong> Marketing | 
+                        <strong>Cargo:</strong> - | 
+                        <strong>Data:</strong> 6 de novembro de 2025 | 
+                        <strong>Site:</strong> datadoghq.com | 
+                        <strong>Times:</strong> SRE • Infra Cloud • HelpDesk
+                    </p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Vertem. Todos os direitos reservados. | <a href="https://vertem.com/politica-privacidade" target="_blank">Política de Privacidade</a> | <a href="https://vertem.com/termos-uso" target="_blank">Termos de Uso</a> | <a href="https://vertem.com" target="_blank">www.vertem.com</a> | Relatório gerado automaticamente pelo sistema de monitoramento Vertem</p>
+            </div>
+        </div>
+    </footer>
+    
+    
+    
+    <!-- Navigation Helper Script -->
+    <script>
+        // Função para destacar o link ativo baseado na seção visível
+        function updateActiveNavLink() {
+            const sections = document.querySelectorAll('.report-section[id]');
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            if (navLinks.length === 0) return; // Sem navegação, não faz nada
+            
+            // Remover classe active de todos os links e restaurar texto curto
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                const shortLabel = link.getAttribute('data-short-label');
+                if (shortLabel) {
+                    link.textContent = shortLabel;
+                }
+            });
+            
+            // Encontrar a seção visível
+            let currentSection = '';
+            const scrollPosition = window.scrollY + 180; // Offset para header fixo + hero
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.offsetHeight;
+                
+                if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                    currentSection = section.id;
+                }
+            });
+            
+            // Se não encontrou nenhuma seção visível, usar a primeira
+            if (!currentSection && sections.length > 0) {
+                currentSection = sections[0].id;
+            }
+            
+            // Adicionar classe active ao link correspondente e atualizar texto
+            navLinks.forEach(link => {
+                const fullLabel = link.getAttribute('data-full-label');
+                const shortLabel = link.getAttribute('data-short-label');
+                
+                if (link.getAttribute('data-section') === currentSection) {
+                    link.classList.add('active');
+                    // Mostrar texto completo quando ativo
+                    if (fullLabel) {
+                        link.textContent = fullLabel;
+                    }
+                } else {
+                    link.classList.remove('active');
+                    // Mostrar texto curto quando não ativo
+                    if (shortLabel) {
+                        link.textContent = shortLabel;
+                    }
+                }
+            });
+        }
+        
+        // Atualizar ao fazer scroll
+        let scrollTimeout;
+        window.addEventListener('scroll', () => {
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(updateActiveNavLink, 100);
+        });
+        
+        // Atualizar ao clicar em um link
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('data-section');
+                const targetSection = document.getElementById(targetId);
+                
+                if (targetSection) {
+                    const headerOffset = 180; // Header fixo + hero navigation
+                    const elementPosition = targetSection.offsetTop;
+                    const offsetPosition = elementPosition - headerOffset;
+                    
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Atualizar link ativo após scroll
+                    setTimeout(updateActiveNavLink, 500);
+                }
+            });
+        });
+        
+        // Atualizar ao carregar a página
+        window.addEventListener('load', updateActiveNavLink);
+        updateActiveNavLink();
+    </script>
+</body>
+</html>

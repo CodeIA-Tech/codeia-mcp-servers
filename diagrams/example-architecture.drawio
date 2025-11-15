@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2025-11-06T23:59:08.467Z" agent="Datadog APM Generator" version="21.0.0" type="device">
+  <diagram name="Architecture" id="architecture">
+    <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="2" value="API Gateway" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4A90E2;fontColor=#ffffff;strokeColor=#2874A6;fontSize=12;fontStyle=1" vertex="1" parent="1">
+      <mxGeometry x="50" y="50" width="120" height="60" as="geometry"/>
+    </mxCell>
+        <mxCell id="3" value="Auth Service" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4A90E2;fontColor=#ffffff;strokeColor=#2874A6;fontSize=12;fontStyle=1" vertex="1" parent="1">
+      <mxGeometry x="250" y="50" width="120" height="60" as="geometry"/>
+    </mxCell>
+        <mxCell id="4" value="User Service" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4A90E2;fontColor=#ffffff;strokeColor=#2874A6;fontSize=12;fontStyle=1" vertex="1" parent="1">
+      <mxGeometry x="450" y="50" width="120" height="60" as="geometry"/>
+    </mxCell>
+        <mxCell id="5" value="Order Service" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4A90E2;fontColor=#ffffff;strokeColor=#2874A6;fontSize=12;fontStyle=1" vertex="1" parent="1">
+      <mxGeometry x="50" y="250" width="120" height="60" as="geometry"/>
+    </mxCell>
+        <mxCell id="6" value="Payment Service" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4A90E2;fontColor=#ffffff;strokeColor=#2874A6;fontSize=12;fontStyle=1" vertex="1" parent="1">
+      <mxGeometry x="250" y="250" width="120" height="60" as="geometry"/>
+    </mxCell>
+        <mxCell id="7" value="Notification Service" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4A90E2;fontColor=#ffffff;strokeColor=#2874A6;fontSize=12;fontStyle=1" vertex="1" parent="1">
+      <mxGeometry x="450" y="250" width="120" height="60" as="geometry"/>
+    </mxCell>
+        <mxCell id="8" value="PostgreSQL Main" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#E74C3C;fontColor=#ffffff;strokeColor=#C0392B;fontSize=12;fontStyle=1" vertex="1" parent="1">
+      <mxGeometry x="50" y="450" width="100" height="80" as="geometry"/>
+    </mxCell>
+        <mxCell id="9" value="MongoDB Orders" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#E74C3C;fontColor=#ffffff;strokeColor=#C0392B;fontSize=12;fontStyle=1" vertex="1" parent="1">
+      <mxGeometry x="250" y="450" width="100" height="80" as="geometry"/>
+    </mxCell>
+        <mxCell id="10" value="Redis Cache" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fillColor=#F39C12;fontColor=#ffffff;strokeColor=#D68910;fontSize=12;fontStyle=1" vertex="1" parent="1">
+      <mxGeometry x="50" y="650" width="120" height="60" as="geometry"/>
+    </mxCell>
+        <mxCell id="11" value="Kafka Events" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fillColor=#27AE60;fontColor=#ffffff;strokeColor=#1E8449;fontSize=12;fontStyle=1" vertex="1" parent="1">
+      <mxGeometry x="50" y="850" width="120" height="60" as="geometry"/>
+    </mxCell>
+        <mxCell id="12" value="HTTP" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#7F8C8D;fontSize=10" edge="1" parent="1" source="2" target="3">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+        <mxCell id="13" value="HTTP" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#7F8C8D;fontSize=10" edge="1" parent="1" source="2" target="4">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+        <mxCell id="14" value="HTTP" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#7F8C8D;fontSize=10" edge="1" parent="1" source="2" target="5">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+        <mxCell id="15" value="SQL" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#7F8C8D;fontSize=10" edge="1" parent="1" source="3" target="8">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+        <mxCell id="16" value="CACHE" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#7F8C8D;fontSize=10" edge="1" parent="1" source="3" target="10">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+        <mxCell id="17" value="SQL" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#7F8C8D;fontSize=10" edge="1" parent="1" source="4" target="8">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+        <mxCell id="18" value="CACHE" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#7F8C8D;fontSize=10" edge="1" parent="1" source="4" target="10">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+        <mxCell id="19" value="NOSQL" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#7F8C8D;fontSize=10" edge="1" parent="1" source="5" target="9">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+        <mxCell id="20" value="HTTP" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#7F8C8D;fontSize=10" edge="1" parent="1" source="5" target="6">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+        <mxCell id="21" value="ASYNC" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#7F8C8D;fontSize=10" edge="1" parent="1" source="5" target="11">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+        <mxCell id="22" value="ASYNC" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#7F8C8D;fontSize=10" edge="1" parent="1" source="7" target="11">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

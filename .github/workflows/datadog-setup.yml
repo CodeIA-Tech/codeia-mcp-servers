@@ -1,0 +1,92 @@
+name: Setup Datadog MCP Server
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/datadog-setup.yml'
+      - 'scripts/datadog-mcp-server.js'
+
+jobs:
+  setup-datadog:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      secrets: read
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      - name: Validate Datadog Connection
+        env:
+          DATADOG_API_KEY: ${{ secrets.DATADOG_API_KEY }}
+          DATADOG_APP_KEY: ${{ secrets.DATADOG_APP_KEY }}
+          DATADOG_SITE: ${{ secrets.DATADOG_SITE || 'datadoghq.com' }}
+        run: |
+          echo "✅ Validando conexão com Datadog..."
+          echo "📍 Site: ${{ secrets.DATADOG_SITE || 'datadoghq.com' }}"
+          echo "🔑 API Key: ${DATADOG_API_KEY:0:8}..."
+          node scripts/test-datadog-connection.js
+          
+      - name: List Datadog Monitors (Test)
+        env:
+          DATADOG_API_KEY: ${{ secrets.DATADOG_API_KEY }}
+          DATADOG_APP_KEY: ${{ secrets.DATADOG_APP_KEY }}
+          DATADOG_SITE: ${{ secrets.DATADOG_SITE || 'datadoghq.com' }}
+        run: |
+          echo "📊 Testando listagem de monitores..."
+          node -e "
+            const https = require('https');
+            const options = {
+              hostname: 'api.${{ secrets.DATADOG_SITE || 'datadoghq.com' }}',
+              path: '/api/v1/monitor',
+              method: 'GET',
+              headers: {
+                'DD-API-KEY': process.env.DATADOG_API_KEY,
+                'DD-APPLICATION-KEY': process.env.DATADOG_APP_KEY
+              }
+            };
+            const req = https.request(options, (res) => {
+              let data = '';
+              res.on('data', (chunk) => { data += chunk; });
+              res.on('end', () => {
+                if (res.statusCode === 200) {
+                  const monitors = JSON.parse(data);
+                  console.log('✅ Conexão bem-sucedida!');
+                  console.log('📊 Total de monitores:', monitors.length || 0);
+                  if (monitors.length > 0) {
+                    console.log('📋 Primeiros 5 monitores:');
+                    monitors.slice(0, 5).forEach((m, i) => {
+                      console.log('  ' + (i+1) + '. ' + m.name);
+                    });
+                  }
+                } else {
+                  console.error('❌ Erro:', res.statusCode, data);
+                  process.exit(1);
+                }
+              });
+            });
+            req.on('error', (e) => {
+              console.error('❌ Erro de conexão:', e.message);
+              process.exit(1);
+            });
+            req.end();
+          "
+      
+      - name: Setup MCP Configuration
+        env:
+          DATADOG_API_KEY: ${{ secrets.DATADOG_API_KEY }}
+          DATADOG_APP_KEY: ${{ secrets.DATADOG_APP_KEY }}
+          DATADOG_SITE: ${{ secrets.DATADOG_SITE || 'datadoghq.com' }}
+        run: |
+          echo "📝 Configurando MCP server..."
+          # Aqui você pode adicionar lógica para configurar o MCP server
+          # usando os secrets do GitHub
+

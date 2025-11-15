@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apresentação de Monitoramento - Vertem</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+            overflow-x: hidden;
+        }
+        
+        /* Header - Estilo Vertem */
+        .header {
+            background: #ffffff;
+            border-bottom: 2px solid #e8e8e8;
+            padding: 1rem 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header-logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #333;
+        }
+        
+        .header-logo img {
+            max-height: 50px;
+            margin-right: 1rem;
+        }
+        
+        .header-nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        .header-nav a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            font-size: 0.95rem;
+        }
+        
+        .header-nav a:hover {
+            color: #0066cc;
+        }
+        
+        .header-nav a.active {
+            color: #0066cc;
+            font-weight: 600;
+            border-bottom: 2px solid #0066cc;
+            padding-bottom: 0.25rem;
+        }
+        
+        /* Slides Container */
+        .slides-container {
+            margin-top: 80px;
+            padding: 0;
+        }
+        
+        /* Slide */
+        .slide {
+            min-height: calc(100vh - 80px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 4rem 2rem;
+            background: #ffffff;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .slide-title {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #0066cc;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .slide-subtitle {
+            font-size: 1.5rem;
+            color: #666;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .slide-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        
+        /* Slide Types */
+        .slide.cover {
+            background: linear-gradient(135deg, #0066cc 0%, #004499 100%);
+            color: white;
+            text-align: center;
+        }
+        
+        .slide.cover .slide-title {
+            color: white;
+            font-size: 4rem;
+        }
+        
+        .slide.cover .slide-subtitle {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.8rem;
+        }
+        
+        .slide.two-columns .slide-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+        
+        .slide.three-columns .slide-content {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+        
+        /* Content Elements */
+        .content h1, .content h2, .content h3 {
+            color: #333;
+            margin-bottom: 1rem;
+        }
+        
+        .content h1 {
+            font-size: 2.5rem;
+        }
+        
+        .content h2 {
+            font-size: 2rem;
+        }
+        
+        .content h3 {
+            font-size: 1.5rem;
+        }
+        
+        .content p {
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            line-height: 1.8;
+        }
+        
+        .content ul, .content ol {
+            margin-left: 2rem;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+        
+        .content li {
+            margin-bottom: 0.75rem;
+        }
+        
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid #e8e8e8;
+        }
+        
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .card.critical {
+            border-left: 4px solid #e74c3c;
+        }
+        
+        .card.warning {
+            border-left: 4px solid #f39c12;
+        }
+        
+        .card.info {
+            border-left: 4px solid #0066cc;
+        }
+        
+        .card.success {
+            border-left: 4px solid #2ecc71;
+        }
+        
+        .card-title {
+            font-size: 1.1rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+        }
+        
+        .card-value {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .card-label {
+            font-size: 1rem;
+            color: #999;
+            margin-top: 0.5rem;
+        }
+        
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        /* Navigation */
+        .slide-nav {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            gap: 1rem;
+            z-index: 999;
+        }
+        
+        .nav-button {
+            background: #0066cc;
+            color: white;
+            border: none;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: background 0.3s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        
+        .nav-button:hover {
+            background: #004499;
+        }
+        
+        .nav-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .slide-counter {
+            position: fixed;
+            bottom: 2rem;
+            left: 2rem;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            z-index: 999;
+        }
+        
+        /* Footer - Estilo Vertem */
+        .footer {
+            background: #1a1a1a;
+            color: #ffffff;
+            padding: 3rem 2rem 1.5rem;
+            margin-top: 4rem;
+        }
+        
+        .footer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .footer-top {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #333;
+        }
+        
+        .footer-section h3 {
+            color: #ffffff;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        
+        .footer-section p,
+        .footer-section a {
+            color: #cccccc;
+            text-decoration: none;
+            font-size: 0.9rem;
+            line-height: 1.8;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer-section a:hover {
+            color: #0066cc;
+        }
+        
+        .footer-logo {
+            max-width: 150px;
+            margin-bottom: 1rem;
+            filter: brightness(0) invert(1);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid #333;
+            color: #999;
+            font-size: 0.85rem;
+        }
+        
+        .footer-bottom p {
+            margin: 0.5rem 0;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+        
+        .footer-links a {
+            color: #cccccc;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        
+        .footer-links a:hover {
+            color: #0066cc;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .header-nav {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .slide-title {
+                font-size: 2rem;
+            }
+            
+            .slide.two-columns .slide-content,
+            .slide.three-columns .slide-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .slide-nav {
+                bottom: 1rem;
+                right: 1rem;
+            }
+            
+            .nav-button {
+                padding: 0.75rem 1rem;
+                font-size: 0.9rem;
+            }
+        }
+        
+        /* Print Styles */
+        @media print {
+            .header {
+                position: relative;
+            }
+            
+            .slide-nav,
+            .slide-counter {
+                display: none;
+            }
+            
+            .slide {
+                page-break-after: always;
+                min-height: auto;
+                margin-bottom: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="#slide-0" class="header-logo">
+                <img src="data:image/jpeg;base64,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" alt="Vertem Logo" style="max-height: 50px;">
+                <span style="font-size: 1.5rem; font-weight: 600;">Vertem</span>
+            </a>
+            <nav class="header-nav">
+                <a href="#slide-0" class="active" onclick="showSlide(0); return false;">Apresentação de Monitoramento</a>
+                <a href="#slide-1" class="" onclick="showSlide(1); return false;">Agenda</a>
+                <a href="#slide-2" class="" onclick="showSlide(2); return false;">Visão Geral</a>
+                <a href="#slide-3" class="" onclick="showSlide(3); return false;">Métricas Principais</a>
+                <a href="#slide-4" class="" onclick="showSlide(4); return false;">Análise de Performance</a>
+                <a href="#slide-5" class="" onclick="showSlide(5); return false;">Alertas e Incidentes</a>
+                <a href="#slide-6" class="" onclick="showSlide(6); return false;">Recomendações</a>
+                <a href="#slide-7" class="" onclick="showSlide(7); return false;">Próximos Passos</a>
+                <a href="#slide-8" class="" onclick="showSlide(8); return false;">Obrigado!</a>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- Slides Container -->
+    <div class="slides-container">
+        
+        <div class="slide cover" id="slide-0">
+            <h1 class="slide-title">Apresentação de Monitoramento</h1>
+            <h2 class="slide-subtitle">Visão Geral do Sistema</h2>
+            <div class="slide-content">
+                
+          <div style="text-align: center; margin-top: 3rem;">
+            <p style="font-size: 1.5rem; margin-top: 2rem;">Vertem - Sistema de Monitoramento</p>
+            <p style="font-size: 1.2rem; margin-top: 1rem; opacity: 0.9;">6 de novembro de 2025</p>
+          </div>
+        
+            </div>
+        </div>
+    
+
+        <div class="slide default" id="slide-1">
+            <h1 class="slide-title">Agenda</h1>
+            
+            <div class="slide-content">
+                
+          <div class="content">
+            <ul style="font-size: 1.5rem; line-height: 2.5;">
+              <li>Visão Geral do Sistema</li>
+              <li>Métricas Principais</li>
+              <li>Análise de Performance</li>
+              <li>Alertas e Incidentes</li>
+              <li>Recomendações</li>
+              <li>Próximos Passos</li>
+            </ul>
+          </div>
+        
+            </div>
+        </div>
+    
+
+        <div class="slide default" id="slide-2">
+            <h1 class="slide-title">Visão Geral</h1>
+            <h2 class="slide-subtitle">Resumo Executivo</h2>
+            <div class="slide-content">
+                
+          <div class="content">
+            <p>Este relatório apresenta uma análise detalhada do sistema de monitoramento, 
+            incluindo métricas, alertas e recomendações para melhorias contínuas.</p>
+            
+            <h3>Objetivo</h3>
+            <p>Fornecer uma visão abrangente do estado atual do sistema, identificando 
+            pontos de atenção e oportunidades de otimização.</p>
+          </div>
+        
+            </div>
+        </div>
+    
+
+        <div class="slide default" id="slide-3">
+            <h1 class="slide-title">Métricas Principais</h1>
+            
+            <div class="slide-content">
+                
+          <div class="stats-grid">
+            <div class="card info">
+              <div class="card-title">Total de Monitores</div>
+              <div class="card-value">45</div>
+              <div class="card-label">monitores ativos</div>
+            </div>
+            <div class="card critical">
+              <div class="card-title">Alertas Críticos</div>
+              <div class="card-value">3</div>
+              <div class="card-label">requerem atenção</div>
+            </div>
+            <div class="card warning">
+              <div class="card-title">Avisos</div>
+              <div class="card-value">8</div>
+              <div class="card-label">monitoramento necessário</div>
+            </div>
+            <div class="card success">
+              <div class="card-title">Status Geral</div>
+              <div class="card-value">Estável</div>
+              <div class="card-label">sistema operacional</div>
+            </div>
+          </div>
+        
+            </div>
+        </div>
+    
+
+        <div class="slide two-columns" id="slide-4">
+            <h1 class="slide-title">Análise de Performance</h1>
+            
+            <div class="slide-content">
+                
+          <div>
+            <h3>CPU</h3>
+            <ul>
+              <li>Utilização média: <strong>45%</strong></li>
+              <li>Picos de utilização: <strong>78%</strong></li>
+              <li>Status: <span style="color: #2ecc71;">Normal</span></li>
+            </ul>
+            
+            <h3 style="margin-top: 2rem;">Memória</h3>
+            <ul>
+              <li>Utilização média: <strong>62%</strong></li>
+              <li>Memória disponível: <strong>38%</strong></li>
+              <li>Status: <span style="color: #2ecc71;">Normal</span></li>
+            </ul>
+          </div>
+          <div>
+            <h3>Rede</h3>
+            <ul>
+              <li>Tráfego de entrada: <strong>2.5 Gbps</strong></li>
+              <li>Tráfego de saída: <strong>1.8 Gbps</strong></li>
+              <li>Latência média: <strong>12ms</strong></li>
+            </ul>
+            
+            <h3 style="margin-top: 2rem;">Armazenamento</h3>
+            <ul>
+              <li>Espaço utilizado: <strong>68%</strong></li>
+              <li>Espaço disponível: <strong>32%</strong></li>
+              <li>Status: <span style="color: #f39c12;">Atenção</span></li>
+            </ul>
+          </div>
+        
+            </div>
+        </div>
+    
+
+        <div class="slide default" id="slide-5">
+            <h1 class="slide-title">Alertas e Incidentes</h1>
+            
+            <div class="slide-content">
+                
+          <div class="content">
+            <h3>Alertas Críticos (3)</h3>
+            <ul style="font-size: 1.2rem;">
+              <li>Alta utilização de CPU no servidor web-01</li>
+              <li>Espaço em disco abaixo de 10% no servidor db-02</li>
+              <li>Timeout em requisições para API externa</li>
+            </ul>
+            
+            <h3 style="margin-top: 2rem;">Avisos (8)</h3>
+            <ul style="font-size: 1.2rem;">
+              <li>Latência elevada em algumas rotas</li>
+              <li>Taxa de erro acima do normal em endpoints específicos</li>
+              <li>Uso de memória próximo ao limite em alguns containers</li>
+            </ul>
+          </div>
+        
+            </div>
+        </div>
+    
+
+        <div class="slide default" id="slide-6">
+            <h1 class="slide-title">Recomendações</h1>
+            
+            <div class="slide-content">
+                
+          <div class="content">
+            <div class="card critical" style="margin-bottom: 2rem;">
+              <h3 style="color: #e74c3c; margin-bottom: 1rem;">Aumentar Capacidade de Disco</h3>
+              <p>O servidor db-02 está com espaço em disco crítico.</p>
+              <ul style="margin-top: 1rem;">
+                <li>Aumentar volume de disco em 50%</li>
+                <li>Implementar política de retenção de logs</li>
+                <li>Migrar dados antigos para armazenamento de baixo custo</li>
+              </ul>
+            </div>
+            
+            <div class="card warning" style="margin-bottom: 2rem;">
+              <h3 style="color: #f39c12; margin-bottom: 1rem;">Otimizar Uso de CPU</h3>
+              <p>O servidor web-01 está apresentando picos de CPU acima de 80%.</p>
+              <ul style="margin-top: 1rem;">
+                <li>Revisar processos em execução</li>
+                <li>Considerar escalonamento horizontal</li>
+                <li>Otimizar queries e operações custosas</li>
+              </ul>
+            </div>
+          </div>
+        
+            </div>
+        </div>
+    
+
+        <div class="slide default" id="slide-7">
+            <h1 class="slide-title">Próximos Passos</h1>
+            
+            <div class="slide-content">
+                
+          <div class="content">
+            <ol style="font-size: 1.3rem; line-height: 2;">
+              <li>Implementar ações corretivas para alertas críticos</li>
+              <li>Revisar e ajustar thresholds de monitoramento</li>
+              <li>Otimizar recursos de infraestrutura</li>
+              <li>Documentar procedimentos de resposta a incidentes</li>
+              <li>Agendar revisão mensal de métricas</li>
+            </ol>
+          </div>
+        
+            </div>
+        </div>
+    
+
+        <div class="slide cover" id="slide-8">
+            <h1 class="slide-title">Obrigado!</h1>
+            <h2 class="slide-subtitle">Perguntas?</h2>
+            <div class="slide-content">
+                
+          <div style="text-align: center; margin-top: 3rem;">
+            <p style="font-size: 1.5rem; margin-top: 2rem;">Vertem - Sistema de Monitoramento</p>
+            <p style="font-size: 1.2rem; margin-top: 1rem; opacity: 0.9;">contato@vertem.com</p>
+          </div>
+        
+            </div>
+        </div>
+    
+    </div>
+    
+    <!-- Navigation -->
+    <div class="slide-nav">
+        <button class="nav-button" id="prevBtn" onclick="previousSlide()">← Anterior</button>
+        <button class="nav-button" id="nextBtn" onclick="nextSlide()">Próximo →</button>
+    </div>
+    
+    <div class="slide-counter">
+        <span id="currentSlide">1</span> / <span id="totalSlides">9</span>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-top">
+                <div class="footer-section">
+                    <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxQHBhUIBxMTFhUXDR8bGRcYGRUfIRsiIBkeIR8jHR4gHiggJCEmIBkaJDYtMSk3LjAvHiszODUvNystLi0BCgoKBQUFDgUFDisZExkrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrK//AABEIAMgAyAMBIgACEQEDEQH/xAAcAAEAAgMBAQEAAAAAAAAAAAAABwgEBQYDAgH/xAA9EAABAwMBBQQHBwQBBQEAAAABAAIDBAURBhIhMUFhBxNRcRQWIiMyQlIVcoGRobLBFyRi0VQzU5PT4Qj/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8Ag1ERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQFNWj+yag1VYI7rRVVR7Qw5vu8scPiad3L9QQeahVd92Ra29Ur/ANzWO/tpiGyZ4MPyv/Dn08gg7TUXYUylsslRZJ5pJms2mxvDMPxxAwOJHDqoPc3ZOHcVd9rtpu03wVeu3bRH2VcfWO2t9zM/3oA+CQ8/J/7s+IQaLst0dR6zlkoq+eaKdo2mtbsYe3njIzkHj0I6ruLp2AsNOTaat4fjcJWAtPmW7x54Khay3SSy3WO5W92zJG/aaf4PiCNxHgVbnR+o49V2CO7UW7aGHtzvY8fE0+X6gg80FStQWSbT10dbbswskby5Eci08wfFa1Wk7X9Eetlg7+jb/cwguj8Xj5mfjxHXzKq65uydl3FB8oi+mtL3bLd5J3BBsdP2OfUV0bbbSwvkd+QHMuPIDxUyWzsBjFODdqt5eRvETAAPIuyT54C6/si0T6pWATVjf7mYB0niwfKz8OfXyC6XVOo4NLWl1zuriGBwADQC5xPANGRk8T5AoI4/oFSf8qp/KP8A0n9AqT/lVP5R/wCln/11tv0Vf/jj/wDYux0fqqLV1vdX22OZsYfsgyNa3aI47OHHIHj/APUEf/0CpP8AlVP5R/6Wm1f2TUGlbBJda2qqMNbhrfdZe4/C0buf6DJ5KdnO2Rl3BVd7Xtbett/7iid/bQktjxwefmf+PLp5lBwCIiAiIgIiICIiAiIgIiILDdhGt/tS3+rdyd72FnuifnYPl82ft8ipQu1uju9skt1wbtRyRlrh0Ph1HEHkQqa2q4yWi5R3CgcWyRyBzT1H8HgRzCtxonU0erdPsulLgE7pGfQ8fEP5HQhBVrWumZNJ6gktVXvAOWP+th+F38HqCt/2Ra29Ur+Iax39tMQ2TwYflf8Ahz6eQU19rOihq/T5NKB6TCC6I/V4sP3sbuoHVVZewseWPBBBwQeSC7zXbTdpvgq9du2iPsq4+sdtb7qZ/vQPkkPPyf8Auz4hdV2Ea4+06D1buTvexMzESfjYPl82ft+6VKN2t0d3tslvr27UcjC1w6H+RxB5FBShS92EaH+07h6yXJvuon4iafnePm8mfu+6Vzw7Mqj+oXquc7Odvvsbu5z8fn8uPq3KzVqt0dpt0dvoG7McbA1o6D+eeUGS9wY0ucQABkkqrfa3rY6u1AWUjj6NCS2IfUfmf+PLpjqpH7eNcfZ1D6s213vZWe+I+Vh+Xzf+37wVf2ML3hjASScADiUG80VpmTVmoI7VSbgTl7/oYPid/A6kK29pt0dotkdut7dmOOMNaOg8ep4k8yVyXZNooaQ0+DVAekzAOlP0+DB93O/qT0W81tqaPSen33SrwSBiNn1vPwt/k9AUHA9u2t/su3erltd72ZnvSPkjPLzf+3PiFXhZt2uMl3uUlxr3bUkkhc49T4dBwA5YWEgIiICIiAiIgIiICIiAiIgLuOyfWp0hqEekk+jzENlHh4PHVufyJ6Lh0QXgjeJWB8ZBBGQRwPUKAe3nRHoFZ6z21vu5H4nA+V54O8nc/wDL7y3vYNrf06k9WLm73kbcwE/MwcWebeX+P3VLVyoY7nQPoa5odHJGWuaeYKCmVquMlpuMdwoHbMkbw5p6j+OWFbfRGp49W6eZdKXcSMSM+h4+IfyOhCq/rvS0mkNQvtk+S34o3/Ww8D58j1BW17KdaHSGoQagn0aYhso8PB46tz+RPRBajux3neYGcYzjfjwytDrnVEekdPPudTguxsxs+t54Dy5noCt9G8SxiSMggjII4EciFCn/AOjLLPMyG8xuc6njbsOZyjc4/F5O3N6Fo8UEK3OvkulwfX1zi6SR5c5x5kqWOwbRHp1Z6z3Jvu43YgB+Z44u8m8v8vuqP9CaVk1fqJlsgyG/FK8fIwcT58h1IVtrbQx2ygZQ0LQ2OOMNa0cgEHvI8RsL5CAAMkngPNVY7WNanV+oSKYn0eElsQ+r6nn72PyA6qR+3nW/oNH6sW13vJG5nIPwsPBvm7n/AI/eVf0BERAREQEREBERAREQEREBERAREQZVurpLbXMrqJxbJG8Oa4ciFbbQeqo9X6eZcoMB/wAMrPoeOI8jxHQqn66vs+1rLoq7mqgG3G8ASxZxtAcCDycMnB6nxQWE7UtGDWGnjHCB6RFl0LvE82E+DsfmAVVSWMwymKUEOa4ggjBBHEEK09r7WLXcKcSuqREcb2Stc0jpwLT+BKh7tmZQV91F801URPdIcTRtO/a5PA68D138yg7TsF1x6ZS+q9zd7cbcwE/MwcWebeI/x+6pbuVDHc6B9DXNDo5GFrmnmCqYW+tfba5lbROLZGPDmuHIjgrDaQ7aaO40bY9Qn0eYDDjsuLHHxaRkjyPDxKDqOz/RMWiba+npSXvfKS6QgAkAnYH4NP5krI15qlmkNOvuU+C/4YmH53ngPLmegWqunaxa7fTmVtSJTjcyJrnE9OAaPxIVf+0LWsutbsKqoGxEwERRZzsg8STzcd2T0CDnrlWyXKvfXVzi6SSQuc48yVioiAiIgIiICIiAiIgIiICIiAt9atH113ovTbbSTSR8nNacHH0+P4LQq11yl7uioq3T8dbLAyMFjKR8AYW4bsiRr8Fzcbt3DfwOEFaYdMVc9A+vhppjHHJsPcGH2XAgEEccgkcl+3jS1ZZKVtVdqaaJjjgOc0gZ8D4HoVYjS18fU3i7y90+HuxE/uX7B2X9y7aJ2SW+1sN58loNPXt+p+x6prNUu70Nq8OcWtHstfE7g0cslBDTdIVzrX9qNpJ+5Lch+wcY8fHHXgvNml6yS7G0spZjOG7Rj2TtAeJHIbxvPirK6gZcptX0UunXM9A2QZsGLBG1v4+0QWbOzs819UpzqS7MtZYKvuItjOP+x7vP+O3lBWmt0rWW9kj62lmYIgDISw4aDwJPDBX1BpOtqLUbrDSzmHZz3gYcYHEjxHXgp2noLjVdkFTS6qBfU7zjMe1sB7Xby07OcNefLC2+pG19RcLdLopzPQ9pplwY8bHs4ztby3YzgN3/AKIK2u01VsujbW+mm75zNpsew7aI8cccbjvWRWaNrqGrjpKukma+V2zGC34j4A8M9FZaAxnX9ZGN05tUOxjZ2tnamzs53fFscd3BclqG8zWzTIpJqa4tcK+LYqal9M4td3zTuLXZPs7Y3A8fBBDUWh7hNUSQRUVQXRkB42DuyMgeB3EHcvCLSVdNbXXGKknMTc5fsO3bPxdd2DnwwVYbUuo6ih7VbfZaZ+IJYHGRmG+0cPxk4zu2BwX7ZdRVFV2v1tgmfmnioWuYzDdxxCSc4zv7x36IK52TTVXf9o2anllDfiLRuHQnhnovan0hXVFXJRw0k5kiaDIzYOWg8DjjvwceKsBaKdn9PRBp8VPsVkge2jfEyTIlfkEv3fTu44xyX3bL5JW9pEFPNTz07jaXl4lMWZAJG92TsOPA95xx8R8UFen6TrY7T9rPpZxDs7XeFhxjx8dnrwW/j7L6yXR7dQRscS4jZgDHF5aTud5Y3+Sl7QeoZ9Qaru1puzw+GKcsjZstAa3bkZjcMnLWjisOy1tfduxSCXTby+qHsbu6zstlc3HtDZ3MDeuEFc0X7wX4gIiICIiAiIgIiIC3Fr1PWWiD0e2VU8TPpZI4D8s4ytOiDZxX+qikkkiqqgGX/qESyAycvbOfa4nivKG7TwUDrfBPM2FxO1EJHhjs4zloODwHLksFEE06Z1raLRQQyd7cwY2tPo/eSGPbA4hu3s42t4BOOij/AFLrOa6axl1FbnyQOeQG7DiCGhoaASOO4b1yyIN0dVVpkkkNXU5lbiQ96/2xwAO/gMkfipI0jq60WqzwCeW5MfHGwvgEkvdPkaAXEMD9nZLxnBwPEKHUQdZrfWb9Q6wdfreZIcNDYsOIe1oHHLTuJyTu8cLV3LVFZdYxHcaqokDXAgOkeQCOBxnj1WnRBspr9VT1ra6epqHSsGGSGWQvbx+FxORxPA8172251tVfA+gqKj0mZzY9sSvD35LQGl+ckbm8TyHgtMuq7MJI4te0hqoy/NWwNw4t2XFw2XcN+Dy5oNo2w3PT9RVT2SrDzBHt1T6ed2Gkudlr87Jc8bDidx/Ncu/UlZJcPtF9XUd9sbPed7JtbPgHZzjpwXd3OOiutFdpaGllglgO0X+kPcJCZ9k5ZsgY4nG9Yd9t9ttmmae7GCQy1VA7u4Wyu2I3tLmmVzj7R37JDeG4oOLpL5U0VQ+oo6meN8hzI5kkjS85zlxByd5PHxX3atQVVnhdFaqmeJrj7Qje9oJ8dx49VId20vT26kEtptb66m7hp9MjqJC4ktBcSxmQzZOdxbyWFR1dJB2OtfWUjpCbw5hxMW5f3GQ/4TuDSBs9M53oI1REQEREBERAREQEREBERAREQEREBERAREQFtNNXMWbUFPc5GlwiqWvLQcE7LgcfotWiDp6bU7YYLlGY3H00ezvHse+29/j4LGv19bdbRR0LGFppqZzCSR7WXl2R4cVoUQd7YtTW6wXRt5tcFeyVu8Q9/H3ZOOBdsbZZ0Kw7ZqamqLBLZtSRTFjrgaljqdzGlry3ZcMOBGzhcciAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiIP1ERB//Z" alt="Vertem Logo" class="footer-logo">
+                    <p>Transformando tecnologia em resultados para seu negócio.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Informações da Apresentação</h3>
+                    <p><strong>Autor:</strong> Vertem - Sistema de Monitoramento</p>
+                    <p><strong>Data:</strong> quinta-feira, 6 de novembro de 2025 às 16:49:26 BRT</p>
+                    <p><strong>Site:</strong> datadoghq.com</p>
+                    <p style="margin-top: 1rem;"><strong>Times:</strong></p>
+                    <p style="font-size: 0.9em; margin-top: 0.5rem;">SRE • Infra Cloud • HelpDesk</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Vertem. Todos os direitos reservados.</p>
+                <div class="footer-links">
+                    <a href="https://vertem.com/politica-privacidade" target="_blank">Política de Privacidade</a>
+                    <a href="https://vertem.com/termos-uso" target="_blank">Termos de Uso</a>
+                    <a href="https://vertem.com" target="_blank">www.vertem.com</a>
+                </div>
+                <p style="margin-top: 1rem; opacity: 0.7;">Relatório gerado automaticamente pelo sistema de monitoramento Vertem</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        let currentSlideIndex = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        
+        document.getElementById('totalSlides').textContent = totalSlides;
+        
+        function showSlide(index) {
+            if (index < 0) index = 0;
+            if (index >= totalSlides) index = totalSlides - 1;
+            
+            currentSlideIndex = index;
+            
+            slides.forEach((slide, i) => {
+                slide.style.display = i === index ? 'flex' : 'none';
+            });
+            
+            document.getElementById('currentSlide').textContent = index + 1;
+            
+            // Update nav buttons
+            document.getElementById('prevBtn').disabled = index === 0;
+            document.getElementById('nextBtn').disabled = index === totalSlides - 1;
+            
+            // Update URL hash
+            window.location.hash = `slide-${index}`;
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        function nextSlide() {
+            if (currentSlideIndex < totalSlides - 1) {
+                showSlide(currentSlideIndex + 1);
+            }
+        }
+        
+        function previousSlide() {
+            if (currentSlideIndex > 0) {
+                showSlide(currentSlideIndex - 1);
+            }
+        }
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'PageDown') {
+                nextSlide();
+            } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+                previousSlide();
+            } else if (e.key === 'Home') {
+                showSlide(0);
+            } else if (e.key === 'End') {
+                showSlide(totalSlides - 1);
+            }
+        });
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check URL hash
+            const hash = window.location.hash;
+            if (hash) {
+                const match = hash.match(/slide-(\d+)/);
+                if (match) {
+                    showSlide(parseInt(match[1]));
+                    return;
+                }
+            }
+            showSlide(0);
+        });
+        
+        // Handle browser back/forward
+        window.addEventListener('hashchange', () => {
+            const hash = window.location.hash;
+            if (hash) {
+                const match = hash.match(/slide-(\d+)/);
+                if (match) {
+                    showSlide(parseInt(match[1]));
+                }
+            }
+        });
+    </script>
+</body>
+</html>
+

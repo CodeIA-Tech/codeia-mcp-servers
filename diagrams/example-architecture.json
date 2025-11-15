@@ -1,0 +1,134 @@
+{
+  "services": [
+    {
+      "id": "api-gateway",
+      "name": "API Gateway",
+      "type": "service",
+      "language": "node",
+      "env": "prod"
+    },
+    {
+      "id": "auth-service",
+      "name": "Auth Service",
+      "type": "service",
+      "language": "python",
+      "env": "prod"
+    },
+    {
+      "id": "user-service",
+      "name": "User Service",
+      "type": "service",
+      "language": "java",
+      "env": "prod"
+    },
+    {
+      "id": "order-service",
+      "name": "Order Service",
+      "type": "service",
+      "language": "go",
+      "env": "prod"
+    },
+    {
+      "id": "payment-service",
+      "name": "Payment Service",
+      "type": "service",
+      "language": "python",
+      "env": "prod"
+    },
+    {
+      "id": "notification-service",
+      "name": "Notification Service",
+      "type": "service",
+      "language": "node",
+      "env": "prod"
+    }
+  ],
+  "databases": [
+    {
+      "id": "postgres-main",
+      "name": "PostgreSQL Main",
+      "type": "database",
+      "env": "prod"
+    },
+    {
+      "id": "mongodb-orders",
+      "name": "MongoDB Orders",
+      "type": "database",
+      "env": "prod"
+    }
+  ],
+  "caches": [
+    {
+      "id": "redis-cache",
+      "name": "Redis Cache",
+      "type": "cache",
+      "env": "prod"
+    }
+  ],
+  "queues": [
+    {
+      "id": "kafka-events",
+      "name": "Kafka Events",
+      "type": "queue",
+      "env": "prod"
+    }
+  ],
+  "external": [],
+  "dependencies": [
+    {
+      "from": "API Gateway",
+      "to": "Auth Service",
+      "type": "http"
+    },
+    {
+      "from": "API Gateway",
+      "to": "User Service",
+      "type": "http"
+    },
+    {
+      "from": "API Gateway",
+      "to": "Order Service",
+      "type": "http"
+    },
+    {
+      "from": "Auth Service",
+      "to": "PostgreSQL Main",
+      "type": "sql"
+    },
+    {
+      "from": "Auth Service",
+      "to": "Redis Cache",
+      "type": "cache"
+    },
+    {
+      "from": "User Service",
+      "to": "PostgreSQL Main",
+      "type": "sql"
+    },
+    {
+      "from": "User Service",
+      "to": "Redis Cache",
+      "type": "cache"
+    },
+    {
+      "from": "Order Service",
+      "to": "MongoDB Orders",
+      "type": "nosql"
+    },
+    {
+      "from": "Order Service",
+      "to": "Payment Service",
+      "type": "http"
+    },
+    {
+      "from": "Order Service",
+      "to": "Kafka Events",
+      "type": "async"
+    },
+    {
+      "from": "Notification Service",
+      "to": "Kafka Events",
+      "type": "async"
+    }
+  ]
+}

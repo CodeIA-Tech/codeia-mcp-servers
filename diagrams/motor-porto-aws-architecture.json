@@ -1,0 +1,348 @@
+{
+  "services": [
+    {
+      "id": "motor-porto-tomcat",
+      "name": "motor-porto-tomcat",
+      "type": "service",
+      "language": "java",
+      "env": "prod"
+    },
+    {
+      "id": "root-servlet",
+      "name": "root-servlet",
+      "type": "service",
+      "language": "unknown",
+      "env": "prod"
+    },
+    {
+      "id": "manager",
+      "name": "manager",
+      "type": "service",
+      "language": "unknown",
+      "env": "prod"
+    }
+  ],
+  "databases": [],
+  "caches": [
+    {
+      "id": "N/A",
+      "name": "ElastiCache-N/A",
+      "type": "cache",
+      "env": "prod"
+    }
+  ],
+  "queues": [],
+  "external": [],
+  "dependencies": [
+    {
+      "from": "aws-eng-quiz-and-survey-transactional-api-redis",
+      "to": "ElastiCache-N/A",
+      "type": "cache"
+    },
+    {
+      "from": "identity-server-vertempaas-api-redis",
+      "to": "ElastiCache-N/A",
+      "type": "cache"
+    },
+    {
+      "from": "aws-eng-lucky-numbers-consulting-api-redis",
+      "to": "ElastiCache-N/A",
+      "type": "cache"
+    },
+    {
+      "from": "sso-oidc-provider-prd-v1-redis",
+      "to": "ElastiCache-N/A",
+      "type": "cache"
+    },
+    {
+      "from": "marketplace-api-prd-redis",
+      "to": "ElastiCache-N/A",
+      "type": "cache"
+    },
+    {
+      "from": "account-credit-aws-redis",
+      "to": "ElastiCache-N/A",
+      "type": "cache"
+    },
+    {
+      "from": "aws-eng-receipt-authorizer-receipt-cart-worker-redis",
+      "to": "ElastiCache-N/A",
+      "type": "cache"
+    },
+    {
+      "from": "mileage-webjob-order-confirmation-prd-redis",
+      "to": "ElastiCache-N/A",
+      "type": "cache"
+    },
+    {
+      "from": "avertem-account-expiration-redis",
+      "to": "ElastiCache-N/A",
+      "type": "cache"
+    },
+    {
+      "from": "tracking-notification-send-email-prd-redis",
+      "to": "ElastiCache-N/A",
+      "type": "cache"
+    },
+    {
+      "from": "aws-eng-lucky-numbers-transactional-api-redis",
+      "to": "ElastiCache-N/A",
+      "type": "cache"
+    },
+    {
+      "from": "vertem-accounting-ledger-redis",
+      "to": "ElastiCache-N/A",
+      "type": "cache"
+    },
+    {
+      "from": "agrega-participant-api-redis",
+      "to": "ElastiCache-N/A",
+      "type": "cache"
+    },
+    {
+      "from": "aws-eng-mgm-authorizer-v1-transaction-mapper-worker-redis",
+      "to": "ElastiCache-N/A",
+      "type": "cache"
+    },
+    {
+      "from": "participant-api-aws-redis",
+      "to": "ElastiCache-N/A",
+      "type": "cache"
+    },
+    {
+      "from": "api-catalog-redis",
+      "to": "ElastiCache-N/A",
+      "type": "cache"
+    },
+    {
+      "from": "aws-eng-lucky-numbers-distributor-api-redis",
+      "to": "ElastiCache-N/A",
+      "type": "cache"
+    },
+    {
+      "from": "aws-eng-mission-survey-completeness-analyzer-worker-redis",
+      "to": "ElastiCache-N/A",
+      "type": "cache"
+    },
+    {
+      "from": "vibe-bis-bff-redis",
+      "to": "ElastiCache-N/A",
+      "type": "cache"
+    },
+    {
+      "from": "vertem-coupon-api-aws-prd-redis",
+      "to": "ElastiCache-N/A",
+      "type": "cache"
+    },
+    {
+      "from": "notification-dashboard-api-redis",
+      "to": "ElastiCache-N/A",
+      "type": "cache"
+    },
+    {
+      "from": "aws-eng-lucky-numbers-participant-api-redis",
+      "to": "ElastiCache-N/A",
+      "type": "cache"
+    },
+    {
+      "from": "ltmmarketplacecatalogapi-redis",
+      "to": "ElastiCache-N/A",
+      "type": "cache"
+    },
+    {
+      "from": "cloudloyaltyproductprd-redis",
+      "to": "ElastiCache-N/A",
+      "type": "cache"
+    },
+    {
+      "from": "aws-eng-receipt-authorizer-receipt-campaign-worker-redis",
+      "to": "ElastiCache-N/A",
+      "type": "cache"
+    },
+    {
+      "from": "notification-api-redis",
+      "to": "ElastiCache-N/A",
+      "type": "cache"
+    },
+    {
+      "from": "worker-sonar-order-prd-redis",
+      "to": "ElastiCache-N/A",
+      "type": "cache"
+    },
+    {
+      "from": "agrega-sso-api-redis",
+      "to": "ElastiCache-N/A",
+      "type": "cache"
+    },
+    {
+      "from": "sso-oidc-provider-prd-redis",
+      "to": "ElastiCache-N/A",
+      "type": "cache"
+    },
+    {
+      "from": "ltmmarketplaceapi-redis",
+      "to": "ElastiCache-N/A",
+      "type": "cache"
+    },
+    {
+      "from": "digitalaccount-vertempaas-api-redis",
+      "to": "ElastiCache-N/A",
+      "type": "cache"
+    },
+    {
+      "from": "worker-sonar-onboarding-prd-redis",
+      "to": "ElastiCache-N/A",
+      "type": "cache"
+    },
+    {
+      "from": "term-api-redis",
+      "to": "ElastiCache-N/A",
+      "type": "cache"
+    },
+    {
+      "from": "banking-api-aws-redis",
+      "to": "ElastiCache-N/A",
+      "type": "cache"
+    },
+    {
+      "from": "portoseguromeuportoapiadminprd-redis",
+      "to": "ElastiCache-N/A",
+      "type": "cache"
+    },
+    {
+      "from": "premmiar-participant-group-api-prd-redis",
+      "to": "ElastiCache-N/A",
+      "type": "cache"
+    },
+    {
+      "from": "aws-eng-mgm-digital-account-new-indication-worker-redis",
+      "to": "ElastiCache-N/A",
+      "type": "cache"
+    },
+    {
+      "from": "sonar-onboarding-prd-redis",
+      "to": "ElastiCache-N/A",
+      "type": "cache"
+    },
+    {
+      "from": "ltmmarketplacerechargeapi-redis",
+      "to": "ElastiCache-N/A",
+      "type": "cache"
+    },
+    {
+      "from": "aws-eng-lucky-numbers-repositor-worker-redis",
+      "to": "ElastiCache-N/A",
+      "type": "cache"
+    },
+    {
+      "from": "partner-hub-freigh-service-api-prd-redis",
+      "to": "ElastiCache-N/A",
+      "type": "cache"
+    },
+    {
+      "from": "eng-participant-segment-participant-api-redis",
+      "to": "ElastiCache-N/A",
+      "type": "cache"
+    },
+    {
+      "from": "sonar-bureau-prd-redis",
+      "to": "ElastiCache-N/A",
+      "type": "cache"
+    },
+    {
+      "from": "aws-eng-wallet-gateway-credit-worker-redis",
+      "to": "ElastiCache-N/A",
+      "type": "cache"
+    },
+    {
+      "from": "eng-participant-segment-admin-api-redis",
+      "to": "ElastiCache-N/A",
+      "type": "cache"
+    },
+    {
+      "from": "aws-eng-closure-cronjob-redis",
+      "to": "ElastiCache-N/A",
+      "type": "cache"
+    },
+    {
+      "from": "sonar-payment-prd-redis",
+      "to": "ElastiCache-N/A",
+      "type": "cache"
+    },
+    {
+      "from": "loyalty-banking-functions-redis",
+      "to": "ElastiCache-N/A",
+      "type": "cache"
+    },
+    {
+      "from": "meuportohotsiteprd-redis",
+      "to": "ElastiCache-N/A",
+      "type": "cache"
+    },
+    {
+      "from": "aws-eng-mgm-authorizer-transaction-analyzer-worker-redis",
+      "to": "ElastiCache-N/A",
+      "type": "cache"
+    },
+    {
+      "from": "sonar-api-prd-redis",
+      "to": "ElastiCache-N/A",
+      "type": "cache"
+    },
+    {
+      "from": "milhas-api-aws-prd-redis",
+      "to": "ElastiCache-N/A",
+      "type": "cache"
+    },
+    {
+      "from": "aws-eng-campaigns-participant-api-redis",
+      "to": "ElastiCache-N/A",
+      "type": "cache"
+    },
+    {
+      "from": "aws-eng-promo-api-redis",
+      "to": "ElastiCache-N/A",
+      "type": "cache"
+    },
+    {
+      "from": "worker-sonar-prd-redis",
+      "to": "ElastiCache-N/A",
+      "type": "cache"
+    },
+    {
+      "from": "sonar-admin-aws-redis",
+      "to": "ElastiCache-N/A",
+      "type": "cache"
+    },
+    {
+      "from": "vibe-admin-api-redis",
+      "to": "ElastiCache-N/A",
+      "type": "cache"
+    },
+    {
+      "from": "aws-eng-engagement-authorizer-api-redis",
+      "to": "ElastiCache-N/A",
+      "type": "cache"
+    },
+    {
+      "from": "eks",
+      "to": "ElastiCache-N/A",
+      "type": "cache"
+    },
+    {
+      "from": "aws-eng-mgm-participant-api-redis",
+      "to": "ElastiCache-N/A",
+      "type": "cache"
+    },
+    {
+      "from": "sso-oidc-provider-sandbox-v1-redis",
+      "to": "ElastiCache-N/A",
+      "type": "cache"
+    },
+    {
+      "from": "aws-eng-campaigns-admin-api-redis",
+      "to": "ElastiCache-N/A",
+      "type": "cache"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2025-11-07T00:05:17.525Z" agent="Datadog APM Generator" version="21.0.0" type="device">
+  <diagram name="Architecture" id="architecture">
+    <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="2" value="motor-porto-tomcat" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4A90E2;fontColor=#ffffff;strokeColor=#2874A6;fontSize=12;fontStyle=1" vertex="1" parent="1">
+      <mxGeometry x="50" y="50" width="120" height="60" as="geometry"/>
+    </mxCell>
+        <mxCell id="3" value="root-servlet" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4A90E2;fontColor=#ffffff;strokeColor=#2874A6;fontSize=12;fontStyle=1" vertex="1" parent="1">
+      <mxGeometry x="250" y="50" width="120" height="60" as="geometry"/>
+    </mxCell>
+        <mxCell id="4" value="manager" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4A90E2;fontColor=#ffffff;strokeColor=#2874A6;fontSize=12;fontStyle=1" vertex="1" parent="1">
+      <mxGeometry x="450" y="50" width="120" height="60" as="geometry"/>
+    </mxCell>
+        <mxCell id="5" value="N/A" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fillColor=#F39C12;fontColor=#ffffff;strokeColor=#D68910;fontSize=12;fontStyle=1" vertex="1" parent="1">
+      <mxGeometry x="50" y="450" width="120" height="60" as="geometry"/>
+    </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
