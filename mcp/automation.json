@@ -1,0 +1,17 @@
+{
+  "mcpServers": {
+    "rundeck": {
+      "command": "node",
+      "args": [
+        "${PROJECT_ROOT}/scripts/rundeck/rundeck-mcp-server.js"
+      ],
+      "env": {
+        "RUNDECK_API_URL": "${RUNDECK_API_URL}",
+        "RUNDECK_API_TOKEN": "${RUNDECK_API_TOKEN}",
+        "RUNDECK_API_VERSION": "${RUNDECK_API_VERSION:-28}"
+      },
+      "description": "Automação e orquestração via Rundeck (projetos, jobs, execuções)"
+    }
+  }
+}
+

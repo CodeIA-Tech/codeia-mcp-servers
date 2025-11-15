@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "filesystem": {
+      "command": "node",
+      "args": [
+        "/home/cianci/develop/Git/Codeia-Tech/codeia-mcp-servers/scripts/filesystem-mcp-server.js"
+      ],
+      "env": {
+        "FILESYSTEM_BASE_PATH": "/home/cianci"
+      }
+    }
+  }
+}
+
