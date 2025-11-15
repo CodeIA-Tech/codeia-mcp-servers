@@ -8,13 +8,14 @@
       "description": "Integração completa com Datadog: monitores, dashboards, análises, workflows, post-mortems e relatórios"
     },
     "filesystem": {
-      "command": "npx",
+      "command": "node",
       "args": [
-        "-y",
-        "@modelcontextprotocol/server-filesystem",
-        "/home/cianci/develop/Git/Codeia-Tech/codeia-mcp-servers"
+        "/home/cianci/develop/Git/Codeia-Tech/codeia-mcp-servers/scripts/filesystem-mcp-server.js"
       ],
-      "description": "Acesso ao sistema de arquivos do projeto"
+      "env": {
+        "FILESYSTEM_BASE_PATH": "/home/cianci"
+      },
+      "description": "Acesso a arquivos locais com suporte a Office (Word, Excel, PowerPoint) e PDF"
     },
     "git": {
       "command": "npx",

@@ -10,6 +10,19 @@
         "GITHUB_PERSONAL_ACCESS_TOKEN": "${GIT_TOKEN}"
       },
       "description": "Operações no GitHub (repos, issues, PRs)"
+    },
+    "azure-devops": {
+      "command": "node",
+      "args": [
+        "${PROJECT_ROOT}/scripts/azure-devops/azure-devops-mcp-server.js"
+      ],
+      "env": {
+        "AZURE_DEVOPS_ORG": "${AZURE_DEVOPS_ORG}",
+        "AZURE_DEVOPS_PROJECT": "${AZURE_DEVOPS_PROJECT}",
+        "AZURE_DEVOPS_PAT": "${AZURE_DEVOPS_PAT}",
+        "AZURE_DEVOPS_API_VERSION": "${AZURE_DEVOPS_API_VERSION:-7.0}"
+      },
+      "description": "Integração com Azure DevOps (Repos, Pipelines, Boards)"
     }
   }
 }

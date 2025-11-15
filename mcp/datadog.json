@@ -3,7 +3,7 @@
     "datadog": {
       "command": "node",
       "args": [
-        "${REPO_ROOT}/scripts/datadog-mcp-server.js"
+        "${PROJECT_ROOT}/scripts/datadog/datadog-mcp-server.js"
       ],
       "env": {
         "DATADOG_API_KEY": "${DATADOG_API_KEY}",
