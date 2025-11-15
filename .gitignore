@@ -37,3 +37,23 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# Security - Private keys and certificates
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
+*.der
+*.jks
+*.keystore
+*.truststore
+id_rsa
+id_ed25519
+*.pub
+*.private
+*.secret
+*.credentials
+*.token
+*.passwd
+*.password
