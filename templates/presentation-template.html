@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{TITLE}} - Vertem</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+            overflow-x: hidden;
+        }
+        
+        /* Header - Estilo Vertem */
+        .header {
+            background: #ffffff;
+            border-bottom: 2px solid #e8e8e8;
+            padding: 1rem 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header-logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #333;
+        }
+        
+        .header-logo img {
+            max-height: 50px;
+            margin-right: 1rem;
+        }
+        
+        .header-nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        .header-nav a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            font-size: 0.95rem;
+        }
+        
+        .header-nav a:hover {
+            color: #0066cc;
+        }
+        
+        .header-nav a.active {
+            color: #0066cc;
+            font-weight: 600;
+            border-bottom: 2px solid #0066cc;
+            padding-bottom: 0.25rem;
+        }
+        
+        /* Slides Container */
+        .slides-container {
+            margin-top: 80px;
+            padding: 0;
+        }
+        
+        /* Slide */
+        .slide {
+            min-height: calc(100vh - 80px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 4rem 2rem;
+            background: #ffffff;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .slide-title {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #0066cc;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .slide-subtitle {
+            font-size: 1.5rem;
+            color: #666;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .slide-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        
+        /* Slide Types */
+        .slide.cover {
+            background: linear-gradient(135deg, #0066cc 0%, #004499 100%);
+            color: white;
+            text-align: center;
+        }
+        
+        .slide.cover .slide-title {
+            color: white;
+            font-size: 4rem;
+        }
+        
+        .slide.cover .slide-subtitle {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.8rem;
+        }
+        
+        .slide.two-columns .slide-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+        
+        .slide.three-columns .slide-content {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+        
+        /* Content Elements */
+        .content h1, .content h2, .content h3 {
+            color: #333;
+            margin-bottom: 1rem;
+        }
+        
+        .content h1 {
+            font-size: 2.5rem;
+        }
+        
+        .content h2 {
+            font-size: 2rem;
+        }
+        
+        .content h3 {
+            font-size: 1.5rem;
+        }
+        
+        .content p {
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            line-height: 1.8;
+        }
+        
+        .content ul, .content ol {
+            margin-left: 2rem;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+        
+        .content li {
+            margin-bottom: 0.75rem;
+        }
+        
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid #e8e8e8;
+        }
+        
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .card.critical {
+            border-left: 4px solid #e74c3c;
+        }
+        
+        .card.warning {
+            border-left: 4px solid #f39c12;
+        }
+        
+        .card.info {
+            border-left: 4px solid #0066cc;
+        }
+        
+        .card.success {
+            border-left: 4px solid #2ecc71;
+        }
+        
+        .card-title {
+            font-size: 1.1rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+        }
+        
+        .card-value {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .card-label {
+            font-size: 1rem;
+            color: #999;
+            margin-top: 0.5rem;
+        }
+        
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        /* Navigation */
+        .slide-nav {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            gap: 1rem;
+            z-index: 999;
+        }
+        
+        .nav-button {
+            background: #0066cc;
+            color: white;
+            border: none;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: background 0.3s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        
+        .nav-button:hover {
+            background: #004499;
+        }
+        
+        .nav-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .slide-counter {
+            position: fixed;
+            bottom: 2rem;
+            left: 2rem;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            z-index: 999;
+        }
+        
+        /* Footer - Estilo Vertem */
+        .footer {
+            background: #1a1a1a;
+            color: #ffffff;
+            padding: 3rem 2rem 1.5rem;
+            margin-top: 4rem;
+        }
+        
+        .footer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .footer-top {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #333;
+        }
+        
+        .footer-section h3 {
+            color: #ffffff;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        
+        .footer-section p,
+        .footer-section a {
+            color: #cccccc;
+            text-decoration: none;
+            font-size: 0.9rem;
+            line-height: 1.8;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer-section a:hover {
+            color: #0066cc;
+        }
+        
+        .footer-logo {
+            max-width: 150px;
+            margin-bottom: 1rem;
+            filter: brightness(0) invert(1);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid #333;
+            color: #999;
+            font-size: 0.85rem;
+        }
+        
+        .footer-bottom p {
+            margin: 0.5rem 0;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+        
+        .footer-links a {
+            color: #cccccc;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        
+        .footer-links a:hover {
+            color: #0066cc;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .header-nav {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .slide-title {
+                font-size: 2rem;
+            }
+            
+            .slide.two-columns .slide-content,
+            .slide.three-columns .slide-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .slide-nav {
+                bottom: 1rem;
+                right: 1rem;
+            }
+            
+            .nav-button {
+                padding: 0.75rem 1rem;
+                font-size: 0.9rem;
+            }
+        }
+        
+        /* Print Styles */
+        @media print {
+            .header {
+                position: relative;
+            }
+            
+            .slide-nav,
+            .slide-counter {
+                display: none;
+            }
+            
+            .slide {
+                page-break-after: always;
+                min-height: auto;
+                margin-bottom: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="#slide-0" class="header-logo">
+                {{LOGO_HEADER}}
+                <span style="font-size: 1.5rem; font-weight: 600;">Vertem</span>
+            </a>
+            <nav class="header-nav">
+                {{NAVIGATION_LINKS}}
+            </nav>
+        </div>
+    </header>
+    
+    <!-- Slides Container -->
+    <div class="slides-container">
+        {{SLIDES}}
+    </div>
+    
+    <!-- Navigation -->
+    <div class="slide-nav">
+        <button class="nav-button" id="prevBtn" onclick="previousSlide()">← Anterior</button>
+        <button class="nav-button" id="nextBtn" onclick="nextSlide()">Próximo →</button>
+    </div>
+    
+    <div class="slide-counter">
+        <span id="currentSlide">1</span> / <span id="totalSlides">{{TOTAL_SLIDES}}</span>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-top">
+                <div class="footer-section">
+                    {{LOGO_FOOTER}}
+                    <p>Transformando tecnologia em resultados para seu negócio.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Informações da Apresentação</h3>
+                    <p><strong>Autor:</strong> {{AUTHOR}}</p>
+                    <p><strong>Data:</strong> {{REPORT_DATE}}</p>
+                    <p><strong>Site:</strong> {{SITE}}</p>
+                    <p style="margin-top: 1rem;"><strong>Times:</strong></p>
+                    <p style="font-size: 0.9em; margin-top: 0.5rem;">SRE • Infra Cloud • HelpDesk</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Vertem. Todos os direitos reservados.</p>
+                <div class="footer-links">
+                    <a href="https://vertem.com/politica-privacidade" target="_blank">Política de Privacidade</a>
+                    <a href="https://vertem.com/termos-uso" target="_blank">Termos de Uso</a>
+                    <a href="https://vertem.com" target="_blank">www.vertem.com</a>
+                </div>
+                <p style="margin-top: 1rem; opacity: 0.7;">{{FOOTER_NOTE}}</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        let currentSlideIndex = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        
+        document.getElementById('totalSlides').textContent = totalSlides;
+        
+        function showSlide(index) {
+            if (index < 0) index = 0;
+            if (index >= totalSlides) index = totalSlides - 1;
+            
+            currentSlideIndex = index;
+            
+            slides.forEach((slide, i) => {
+                slide.style.display = i === index ? 'flex' : 'none';
+            });
+            
+            document.getElementById('currentSlide').textContent = index + 1;
+            
+            // Update nav buttons
+            document.getElementById('prevBtn').disabled = index === 0;
+            document.getElementById('nextBtn').disabled = index === totalSlides - 1;
+            
+            // Update URL hash
+            window.location.hash = `slide-${index}`;
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        function nextSlide() {
+            if (currentSlideIndex < totalSlides - 1) {
+                showSlide(currentSlideIndex + 1);
+            }
+        }
+        
+        function previousSlide() {
+            if (currentSlideIndex > 0) {
+                showSlide(currentSlideIndex - 1);
+            }
+        }
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'PageDown') {
+                nextSlide();
+            } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+                previousSlide();
+            } else if (e.key === 'Home') {
+                showSlide(0);
+            } else if (e.key === 'End') {
+                showSlide(totalSlides - 1);
+            }
+        });
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check URL hash
+            const hash = window.location.hash;
+            if (hash) {
+                const match = hash.match(/slide-(\d+)/);
+                if (match) {
+                    showSlide(parseInt(match[1]));
+                    return;
+                }
+            }
+            showSlide(0);
+        });
+        
+        // Handle browser back/forward
+        window.addEventListener('hashchange', () => {
+            const hash = window.location.hash;
+            if (hash) {
+                const match = hash.match(/slide-(\d+)/);
+                if (match) {
+                    showSlide(parseInt(match[1]));
+                }
+            }
+        });
+    </script>
+</body>
+</html>
+
