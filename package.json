@@ -1,0 +1,20 @@
+{
+  "name": "codeia-mcp-servers",
+  "version": "1.0.0",
+  "description": "MCP Servers e configurações para Cursor IDE",
+  "type": "module",
+  "scripts": {
+    "install-filesystem-deps": "./scripts/install-filesystem-dependencies.sh"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^0.5.0"
+  },
+  "optionalDependencies": {
+    "mammoth": "^1.11.0",
+    "pdf-parse": "^1.1.4",
+    "xlsx": "^0.18.5"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
