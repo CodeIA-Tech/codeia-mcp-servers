@@ -292,6 +292,15 @@ Regras para operações Datadog:
 - Incident management
 - Best practices de monitoramento
 
+### Vertem IA Assessment (`rules/vertem-ia-assessment/vertem-ia-assessment.md`)
+Agente desenvolvedor especializado para o projeto Vertem IA Assessment:
+- Desenvolvimento Full-Stack (Next.js + React + Prisma)
+- Criação de componentes e funcionalidades
+- Gerenciamento de banco de dados
+- Operações Git e criação de PRs
+- Seguindo padrões e convenções do projeto
+- 📖 Veja [VERTEM-IA-ASSESSMENT-AGENT.md](docs/VERTEM-IA-ASSESSMENT-AGENT.md) para detalhes
+
 ## 🔐 Segurança
 
 ### Variáveis de Ambiente

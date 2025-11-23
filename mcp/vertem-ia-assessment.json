@@ -1,0 +1,46 @@
+{
+  "mcpServers": {
+    "filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "/mnt/c/vertem-ia-assessment"
+      ],
+      "description": "Acesso ao sistema de arquivos do projeto Vertem IA Assessment"
+    },
+    "git": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-git",
+        "--repository",
+        "/mnt/c/vertem-ia-assessment"
+      ],
+      "description": "Operações Git no repositório Vertem IA Assessment"
+    },
+    "azure-devops": {
+      "command": "node",
+      "args": [
+        "/home/cianci/develop/Git/Codeia-Tech/codeia-mcp-servers/scripts/azure-devops/azure-devops-mcp-server.js"
+      ],
+      "env": {
+        "AZURE_DEVOPS_ORG": "${AZURE_DEVOPS_ORG}",
+        "AZURE_DEVOPS_PAT": "${AZURE_DEVOPS_PAT}",
+        "AZURE_DEVOPS_PROJECT": "${AZURE_DEVOPS_PROJECT}",
+        "AZURE_DEVOPS_API_VERSION": "${AZURE_DEVOPS_API_VERSION:-7.0}"
+      },
+      "description": "Integração com Azure DevOps para criar PRs e gerenciar repositório"
+    },
+    "databases": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-sqlite",
+        "/mnt/c/vertem-ia-assessment/prisma/dev.db"
+      ],
+      "description": "Acesso ao banco de dados SQLite do projeto"
+    }
+  }
+}
+
