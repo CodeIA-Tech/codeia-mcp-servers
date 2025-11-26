@@ -6,6 +6,7 @@
  * - Listar projetos, repositórios e pipelines
  * - Consultar execuções de pipelines
  * - Buscar e detalhar Work Items
+ * - Criar Pull Requests automaticamente
  *
  * Variáveis de ambiente necessárias:
  * - AZURE_DEVOPS_ORG (obrigatório)
@@ -230,6 +231,55 @@ async function searchWorkItems(project, wiql, fields = null, top = 20) {
   };
 }
 
+async function getRepositoryId(project, repositoryName) {
+  const projectSegment = encodeSegment(ensureProject(project));
+  const data = await apiRequest(`${projectSegment}/_apis/git/repositories`);
+  const repo = data.value?.find((r) => r.name === repositoryName);
+  if (!repo) {
+    throw new Error(`Repositório "${repositoryName}" não encontrado no projeto.`);
+  }
+  return repo.id;
+}
+
+async function createPullRequest(
+  project,
+  repositoryName,
+  sourceBranch,
+  targetBranch,
+  title,
+  description = ''
+) {
+  const projectSegment = encodeSegment(ensureProject(project));
+  const repoId = await getRepositoryId(project, repositoryName);
+
+  // Adicionar nota de criação automática se não houver descrição
+  const autoNote = `> 🤖 **PR criado automaticamente pelo assistente Vertem IA**\n> \n> Este Pull Request foi gerado automaticamente. Por favor, revise antes de aprovar.\n\n---\n\n`;
+  const finalDescription = description || `${autoNote}## Descrição\n\n${title}\n\n## Mudanças\n\n- Alterações realizadas automaticamente`;
+
+  const prData = {
+    sourceRefName: `refs/heads/${sourceBranch}`,
+    targetRefName: `refs/heads/${targetBranch}`,
+    title: title,
+    description: finalDescription,
+  };
+
+  const data = await apiRequest(
+    `${projectSegment}/_apis/git/repositories/${repoId}/pullrequests`,
+    {
+      method: 'POST',
+      body: prData,
+    }
+  );
+
+  return {
+    pullRequestId: data.pullRequestId,
+    title: data.title,
+    status: data.status,
+    url: data.url || data._links?.web?.href || `${baseUrl}${projectSegment}/_git/${repositoryName}/pullrequest/${data.pullRequestId}`,
+    ...data,
+  };
+}
+
 class AzureDevOpsMCPServer {
   constructor() {
     this.server = new Server(
@@ -355,6 +405,42 @@ class AzureDevOpsMCPServer {
             required: ['wiql'],
           },
         },
+        {
+          name: 'create_pull_request',
+          description:
+            'Cria um Pull Request no Azure DevOps. Usa o projeto padrão se não informado.',
+          inputSchema: {
+            type: 'object',
+            properties: {
+              project: {
+                type: 'string',
+                description: 'Nome do projeto no Azure DevOps. Se não informado, usa o projeto padrão.',
+              },
+              repositoryName: {
+                type: 'string',
+                description: 'Nome do repositório Git (ex: vertem-ia-assessment).',
+              },
+              sourceBranch: {
+                type: 'string',
+                description: 'Branch de origem (ex: feature/add-waha-integration).',
+              },
+              targetBranch: {
+                type: 'string',
+                description: 'Branch de destino (ex: main).',
+                default: 'main',
+              },
+              title: {
+                type: 'string',
+                description: 'Título do Pull Request.',
+              },
+              description: {
+                type: 'string',
+                description: 'Descrição do Pull Request (opcional). Se não informado, será gerada automaticamente.',
+              },
+            },
+            required: ['repositoryName', 'sourceBranch', 'title'],
+          },
+        },
       ],
     }));
 
@@ -393,6 +479,17 @@ class AzureDevOpsMCPServer {
               args.wiql,
               args.fields,
               args.top
+            );
+            return this.success(data);
+          }
+          case 'create_pull_request': {
+            const data = await createPullRequest(
+              args.project,
+              args.repositoryName,
+              args.sourceBranch,
+              args.targetBranch || 'main',
+              args.title,
+              args.description
             );
             return this.success(data);
           }

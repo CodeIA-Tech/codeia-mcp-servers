@@ -34,6 +34,7 @@ codeia-mcp-servers/
 │   ├── cloud.json                # Servidores cloud (AWS, Brave Search)
 │   ├── datadog.json              # Servidor Datadog (monitores, dashboards, análises)
 │   ├── automation.json           # Servidor Rundeck (orquestração e automações)
+│   ├── messaging.json            # Servidor WhatsApp (notificações em tempo real)
 │   └── filesystem.json           # Servidor Filesystem (acesso a arquivos locais)
 │
 ├── rules/                        # System Prompts por contexto
@@ -59,6 +60,8 @@ codeia-mcp-servers/
 │   │   └── generate-operacoes-report.js
 │   ├── rundeck/                  # Scripts relacionados ao Rundeck
 │   │   └── rundeck-mcp-server.js
+│   ├── whatsapp/                 # Scripts relacionados à WhatsApp Cloud API
+│   │   └── whatsapp-mcp-server.js
 │   ├── utils/                    # Utilitários compartilhados
 │   │   ├── env-loader.js
 │   │   └── datadog-client.js
@@ -206,10 +209,12 @@ Veja o [guia completo de agentes](docs/reference/AGENTES.md) para todos os nomes
 ### GitOps (`mcp/gitops.json`)
 - **github**: Operações no GitHub
   - Requer: `GITHUB_TOKEN`
-- **azure-devops**: Operações no Azure DevOps (Repos, Pipelines, Boards)
+- **azure-devops**: Operações no Azure DevOps (Repos, Pipelines, Boards, **Pull Requests**)
   - Requer: `AZURE_DEVOPS_ORG`, `AZURE_DEVOPS_PAT`
   - Opcional: `AZURE_DEVOPS_PROJECT`, `AZURE_DEVOPS_API_VERSION`
+  - Funcionalidades: Listar projetos/repositórios/pipelines, consultar execuções, buscar Work Items, **criar Pull Requests automaticamente**
   - 📖 Veja [AZURE-DEVOPS-MCP.md](docs/AZURE-DEVOPS-MCP.md) para detalhes e exemplos
+  - 📖 Veja [CONTEXT-PROJECT-CONFIG.md](docs/CONTEXT-PROJECT-CONFIG.md) para workflow de PRs automatizados
 
 ### Automação (`mcp/automation.json`)
 - **rundeck**: Automação e orquestração via Rundeck
@@ -237,6 +242,12 @@ Veja o [guia completo de agentes](docs/reference/AGENTES.md) para todos os nomes
   - Gerenciar incidentes
 - Requer: `DATADOG_API_KEY`, `DATADOG_APP_KEY`
 - Opcional: `DATADOG_SITE` (padrão: datadoghq.com)
+
+### Messaging (`mcp/messaging.json`)
+- **whatsapp**: Notificações operacionais via WhatsApp Cloud API (texto, templates, mensagens interativas)
+  - Requer: `WHATSAPP_ACCESS_TOKEN`, `WHATSAPP_PHONE_NUMBER_ID`
+  - Opcional: `WHATSAPP_BUSINESS_ACCOUNT_ID`, `WHATSAPP_API_VERSION`, `WHATSAPP_API_BASE_URL`
+  - 📖 Veja [WHATSAPP-MCP-SERVER.md](docs/WHATSAPP-MCP-SERVER.md) para exemplos e boas práticas
 
 ### Filesystem (`mcp/filesystem.json`)
 - **filesystem**: Acesso a arquivos locais no notebook
